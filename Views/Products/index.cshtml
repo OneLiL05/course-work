@@ -22,7 +22,7 @@
         <div class="d-flex flex-column gap-1">
             @foreach (var category in ViewBag.Categories)
             {
-                <a href="/products?sortOrder=@ViewBag.SortOrder&searchQuery=@ViewBag.SearchQuery&categorySlug=@category.Slug">
+                <a href="/products?orderBy=@ViewBag.OrderBy&sortOrder=@ViewBag.SortOrder&searchQuery=@ViewBag.SearchQuery&categorySlug=@category.Slug">
                     @category.Name
                 </a>
             }
@@ -78,16 +78,16 @@
     <div class="col-2 gap-3">
         <h5>Sort by:</h5>
         <div class="d-flex flex-column gap-1">
-            <a href="/products?sortOrder=price&searchQuery=@ViewBag.SearchQuery&categorySlug=@ViewBag.CategorySlug">
+            <a href="/products?orderBy=date&order=Desc&searchQuery=@ViewBag.SearchQuery&categorySlug=@ViewBag.CategorySlug">
                 Date: New to old
             </a>
-            <a href="/products?sortOrder=price&searchQuery=@ViewBag.SearchQuery&categorySlug=@ViewBag.CategorySlug">
+            <a href="/products?orderBy=date&order=Asc&searchQuery=@ViewBag.SearchQuery&categorySlug=@ViewBag.CategorySlug">
                 Date: Old to new
             </a>
-            <a href="/products?sortOrder=price&searchQuery=@ViewBag.SearchQuery&categorySlug=@ViewBag.CategorySlug">
+            <a href="/products?orderBy=price&order=Desc&searchQuery=@ViewBag.SearchQuery&categorySlug=@ViewBag.CategorySlug">
                 Price: High to low
             </a>
-            <a href="/products?sortOrder=price_desc&searchQuery=@ViewBag.SearchQuery&categorySlug=@ViewBag.CategorySlug">
+            <a href="/products?orderBy=price&order=Asc&searchQuery=@ViewBag.SearchQuery&categorySlug=@ViewBag.CategorySlug">
                 Price: Low to high
             </a>
         </div>

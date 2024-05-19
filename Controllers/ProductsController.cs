@@ -4,6 +4,7 @@ using Supabase.Gotrue;
 using trade_compas.DTOs.Product;
 using trade_compas.Interfaces;
 using trade_compas.Models;
+using trade_compas.Enums;
 
 namespace trade_compas.Controllers;
 
@@ -14,13 +15,14 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
     private readonly SelectList _categoriesList = new(categoriesRepository.GetAll(), "Slug", "Name");
 
     [HttpGet]
-    public IActionResult Index(string searchQuery, string sortOrder, string categorySlug)
+    public IActionResult Index(string searchQuery, string orderBy, SortingOrder order, string categorySlug)
     {
         var products = productsRepository.GetAll();
 
         ViewBag.Categories = categoriesRepository.GetAll();
         ViewBag.SearchQuery = searchQuery;
-        ViewBag.SortOrder = sortOrder;
+        ViewBag.SortOrder = order;
+        ViewBag.OrderBy = orderBy;
         ViewBag.CategorySlug = categorySlug;
 
         ViewData["User"] = _user;
@@ -33,6 +35,18 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
         if (!string.IsNullOrEmpty(categorySlug))
         {
             products = productsRepository.Match(product => product.CategorySlug, categorySlug);
+        }
+
+        if (!string.IsNullOrEmpty(orderBy))
+        {
+            Console.WriteLine(order);
+
+            products = orderBy switch
+            {
+                "price" => productsRepository.SortBy(product => product.Price, order),
+                "date" => productsRepository.SortBy(product => product.CreatedAt, order),
+                _ => products
+            };
         }
 
         return View(products);

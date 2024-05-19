@@ -4,7 +4,7 @@ using trade_compas.Models;
 
 namespace trade_compas.Interfaces;
 
-public interface IProductsRepository : IBaseRepository<Product>, ICreatable<CreateProductDto>, IUpdatable<CreateProductDto>, IDeletable, ISearchable<Product>, IMatchable<Product>
+public interface IProductsRepository : IBaseRepository<Product>, ICreatable<CreateProductDto>, IUpdatable<CreateProductDto>, IDeletable, ISearchable<Product>, IMatchable<Product>, ISortable<Product>
 {
     List<Product> GetAllByCategory(string slug);
 

@@ -4,5 +4,5 @@ namespace trade_compas.Interfaces.Basic;
 
 public interface ISortable<TEntity>
 {
-    List<TEntity> SortBy(string field, SortingOrder order);
+    List<TEntity> SortBy(Func<TEntity, object> keySelector, SortingOrder order);
 }

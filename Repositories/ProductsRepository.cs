@@ -1,5 +1,6 @@
 using Supabase.Gotrue;
 using trade_compas.DTOs.Product;
+using trade_compas.Enums;
 using trade_compas.Interfaces;
 using trade_compas.Interfaces.Helpers;
 using trade_compas.Interfaces.Actions;
@@ -16,6 +17,7 @@ public class ProductsRepository(IPathHelper pathHelper, Supabase.Client supabase
     private readonly ISearchAction<Product> _searchAction = new SearchAction<Product>();
     private readonly IMatchAction<Product> _matchAction = new MatchAction<Product>();
     private readonly IDeleteAction<Product> _deleteAction = new DeleteAction<Product>();
+    private readonly ISortAction<Product> _sortAction = new SortAction<Product>();
 
     public List<Product> GetAll()
     {
@@ -96,6 +98,11 @@ public class ProductsRepository(IPathHelper pathHelper, Supabase.Client supabase
     public List<Product> Match(Func<Product, object> keySelector, object matcher)
     {
         return _matchAction.DoAction(GetAll(), keySelector, matcher);
+    }
+
+    public List<Product> SortBy(Func<Product, object> keySelector, SortingOrder order)
+    {
+        return _sortAction.DoAction(GetAll(), keySelector, order);
     }
 }
 
