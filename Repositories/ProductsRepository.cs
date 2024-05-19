@@ -1,7 +1,7 @@
 using Supabase.Gotrue;
 using trade_compas.DTOs.Product;
 using trade_compas.Enums;
-using trade_compas.Interfaces;
+using trade_compas.Interfaces.Repositories;
 using trade_compas.Interfaces.Helpers;
 using trade_compas.Interfaces.Actions;
 using trade_compas.Models;
@@ -103,6 +103,11 @@ public class ProductsRepository(IPathHelper pathHelper, Supabase.Client supabase
     public List<Product> SortBy(Func<Product, object> keySelector, SortingOrder order)
     {
         return _sortAction.DoAction(GetAll(), keySelector, order);
+    }
+
+    public List<Product> SortBy(List<Product> list, Func<Product, object> keySelector, SortingOrder order)
+    {
+        return _sortAction.DoAction(list, keySelector, order);
     }
 }
 

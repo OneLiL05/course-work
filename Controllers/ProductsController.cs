@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Supabase.Gotrue;
 using trade_compas.DTOs.Product;
 using trade_compas.Interfaces;
-using trade_compas.Models;
+using trade_compas.Interfaces.Repositories;
 using trade_compas.Enums;
 
 namespace trade_compas.Controllers;
@@ -17,7 +17,7 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
     [HttpGet]
     public IActionResult Index(string searchQuery, string orderBy, SortingOrder order, string categorySlug)
     {
-        var products = productsRepository.GetAll();
+        var products = productsRepository.SortBy(product => product.CreatedAt, SortingOrder.Desc);
 
         ViewBag.Categories = categoriesRepository.GetAll();
         ViewBag.SearchQuery = searchQuery;
@@ -29,22 +29,28 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
 
         if (!string.IsNullOrEmpty(searchQuery))
         {
-            products = productsRepository.Search(p => p.Name, searchQuery);
+            products = productsRepository.SortBy(
+                productsRepository.Search(p => p.Name, searchQuery),
+                product => product.CreatedAt,
+                SortingOrder.Desc
+                );
         }
 
         if (!string.IsNullOrEmpty(categorySlug))
         {
-            products = productsRepository.Match(product => product.CategorySlug, categorySlug);
+            products = productsRepository.SortBy(
+                productsRepository.Match(product => product.CategorySlug, categorySlug),
+                product => product.CreatedAt,
+                SortingOrder.Desc
+            );
         }
 
         if (!string.IsNullOrEmpty(orderBy))
         {
-            Console.WriteLine(order);
-
             products = orderBy switch
             {
-                "price" => productsRepository.SortBy(product => product.Price, order),
-                "date" => productsRepository.SortBy(product => product.CreatedAt, order),
+                "price" => productsRepository.SortBy(products, product => product.Price, order),
+                "date" => productsRepository.SortBy(products, product => product.CreatedAt, order),
                 _ => products
             };
         }

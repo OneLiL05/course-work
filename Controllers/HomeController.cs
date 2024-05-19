@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using trade_compas.Interfaces;
+using trade_compas.Interfaces.Repositories;
 using trade_compas.Models;
 using User = Supabase.Gotrue.User;
 

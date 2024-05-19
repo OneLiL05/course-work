@@ -1,5 +1,6 @@
 using Supabase;
 using trade_compas.Interfaces;
+using trade_compas.Interfaces.Repositories;
 using trade_compas.Interfaces.Helpers;
 using trade_compas.Repositories;
 using trade_compas.Utils;

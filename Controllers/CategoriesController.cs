@@ -1,6 +1,7 @@
 using System.Dynamic;
 using Microsoft.AspNetCore.Mvc;
 using trade_compas.Interfaces;
+using trade_compas.Interfaces.Repositories;
 
 namespace trade_compas.Controllers;
 
