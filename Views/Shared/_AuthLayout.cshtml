@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -8,10 +8,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/trade_compas.styles.css" asp-append-version="true"/>
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark px-4">
         <div class="container-fluid">
             <a class="navbar-brand" href="javascript:void(0)">Logo</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
@@ -26,22 +27,17 @@
                         <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
                     </li>
                 </ul>
-                @if (@ViewData["User"] == null)
+                @if (1 > 2)
                 {
-                    <div class="d-flex gap-2">
-                        <a class="btn btn-outline-light" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
-                        <button class="btn btn-primary" type="button">Sign up</button>
-                    </div>
+                    <span class="avatar">
+                        <i class="fa-solid fa-user"></i>
+                    </span>
                 }
                 else
                 {
                     <div class="d-flex gap-2">
-                        <button type="button" class="btn btn-dark">
-                            <i class="fa-solid fa-heart"></i>
-                        </button>
-                        <a asp-controller="Home" asp-action="Profile" asp-area="" class="avatar">
-                            <i class="fa-solid fa-user"></i>
-                        </a>
+                        <a class="btn btn-outline-light" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
+                        <button class="btn btn-primary" type="button">Sign up</button>
                     </div>
                 }
             </div>

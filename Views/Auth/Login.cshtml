@@ -1,0 +1,59 @@
+@model trade_compas.DTOs.Auth.LoginDto;
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_Layout";
+}
+
+<section class="d-flex flex-column w-100 h-100 justify-content-center align-items-center gap-4">
+    <h1>Login</h1>
+    <div class="card" style="width: 24rem;">
+        <form class="card-body d-flex flex-column gap-1" asp-action="Login" method="post">
+            <div class="col">
+                <label asp-for="Email" for="email" class="form-label">Email</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-email">
+                        <i class="fa-solid fa-envelope"></i>
+                    </span>
+                    <input asp-for="Email" id="email" type="email" class="form-control" inputmode="email" placeholder="Write email..." aria-label="Email" aria-describedby="basic-email" autofocus>
+                </div>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <label asp-for="Password" for="password" class="form-label">Password</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-password">
+                        <i class="fa-solid fa-key"></i>
+                    </span>
+                    <input asp-for="Password" id="password" type="password" class="form-control" placeholder="Write password..." aria-label="Password" aria-describedby="basic-password">
+                </div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            @if (ViewData["Error"] != null)
+            {
+                <span class="text-danger">@ViewData["Error"]</span>
+            }
+            <button id="submit" type="submit" class="btn btn-primary">
+                Login
+            </button>
+        </form>
+    </div>
+    <div class="row gap-1">
+        <p class="m-0" align="center">Don't have an account? <a asp-controller="Auth" asp-action="Signup" asp-area="">Sign up</a></p>
+        <p class="m-0" align="center"><a asp-controller="Home" asp-action="Index" asp-area="">Continue as a guest</a></p>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+        const email = document.getElementById("email");
+        const button = document.getElementById("submit");
+
+        email.addEventListener("input", (e) => {
+            const emailValue = e.target.value.trim();
+
+            button.disabled = emailValue.length === 0;
+        })
+    </script>
+}

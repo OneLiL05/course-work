@@ -1,0 +1,44 @@
+@model Supabase.Gotrue.User;
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<section class="container">
+    <div class="row">
+        <div class="col-3">
+            <nav class="list-group">
+                <a asp-controller="Home" asp-action="Profile" asp-area="" class="list-group-item list-group-item-action active">Public profile</a>
+                <a href="#" class="list-group-item list-group-item-action">Products</a>
+                <a href="#" class="list-group-item list-group-item-action">Orders</a>
+                <a href="#" class="list-group-item list-group-item-action">Archive</a>
+            </nav>
+        </div>
+        <div class="d-flex flex-column col-8 gap-3">
+            <h3>Public profile</h3>
+            <div class="card">
+                <form class="card-body d-flex flex-column gap-1" asp-action="Login" asp-controller="Auth" method="post">
+                    <div class="col">
+                        <label asp-for="Email" for="email" class="form-label">Email</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-email">
+                                <i class="fa-solid fa-envelope"></i>
+                            </span>
+                            <input asp-for="Email" id="email" type="email" class="form-control" inputmode="email" placeholder="Write email..." aria-label="Email" aria-describedby="basic-email" autofocus>
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="d-flex w-100 flex-row align-items-center justify-content-end">
+                        <button class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card">
+                <form class="card-body d-flex flex-row justify-content-between gap-1">
+                    <h4>123</h4>
+                    <button type="submit" class="btn btn-danger">Sign out</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

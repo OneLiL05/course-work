@@ -1,0 +1,32 @@
+[
+  {
+    "Id": 1,
+    "Name": "Electronics",
+    "Slug": "electronics"
+  },
+  {
+    "Id": 2,
+    "Name": "Pets",
+    "Slug": "pets"
+  },
+  {
+    "Id": 3,
+    "Name": "Home and garden",
+    "Slug": "home-and-garden"
+  },
+  {
+    "Id": 4,
+    "Name": "Fashion and style",
+    "Slug": "fashion-and-style"
+  },
+  {
+    "Id": 5,
+    "Name": "Hobby and rest",
+    "Slug": "hobby-and-rest"
+  },
+  {
+    "Id": 6,
+    "Name": "Sport",
+    "Slug": "sport"
+  }
+]

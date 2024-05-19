@@ -1,0 +1,106 @@
+@using trade_compas.Helpers
+@model List<trade_compas.Models.Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<header class="d-flex flex-column gap-3">
+    <h1>Products</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Products</li>
+        </ol>
+    </nav>
+</header>
+<section class="row mt-3">
+    <div class="col-2 gap-3">
+        <h5>Categories:</h5>
+        <div class="d-flex flex-column gap-1">
+            @foreach (var category in ViewBag.Categories)
+            {
+                <a href="/products?sortOrder=@ViewBag.SortOrder&searchQuery=@ViewBag.SearchQuery&categorySlug=@category.Slug">
+                    @category.Name
+                </a>
+            }
+        </div>
+    </div>
+    <div class="col">
+        <div class="d-inline-flex w-100 justify-content-between align-items-center mb-3">
+            <form asp-action="Index" method="get" class="d-inline-flex w-50 gap-3">
+                <input name="searchQuery" id="search" type="search" inputmode="text" class="form-control" placeholder="Search...">
+                <button type="submit" class="btn btn-outline-dark">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+            @if (ViewData["User"] != null)
+            {
+                <a class="btn btn-primary" asp-controller="Products" asp-action="New" asp-area="">
+                    <i class="fa-solid fa-plus"></i>
+                    New
+                </a>
+            }
+        </div>
+        @if (Model.Count == 0)
+        {
+            <div class="card text-center">
+                <div class="card-body p-5">
+                    <h5 class="card-title">No product found</h5>
+                    <p class="card-text">There is no product found by your request.</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex flex-row flex-wrap gap-3">
+                @foreach (var product in Model)
+                {
+                    <div class="card" style="width: 16rem;">
+                        <img src="~/uploads/product-placeholder.webp" class="card-img-top" alt="Product image">
+                        <div class="card-body">
+                            <h5 class="card-title">@StringHelper.Trim(product.Name, 20)</h5>
+                            <p class="card-text">$@product.Price</p>
+                            <div class="d-inline-flex w-100 justify-content-between">
+                                <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary">Visit</a>
+                                <button type="button" class="btn btn-outline-danger">
+                                    <i class="fa-regular fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    <div class="col-2 gap-3">
+        <h5>Sort by:</h5>
+        <div class="d-flex flex-column gap-1">
+            <a href="/products?sortOrder=price&searchQuery=@ViewBag.SearchQuery&categorySlug=@ViewBag.CategorySlug">
+                Date: New to old
+            </a>
+            <a href="/products?sortOrder=price&searchQuery=@ViewBag.SearchQuery&categorySlug=@ViewBag.CategorySlug">
+                Date: Old to new
+            </a>
+            <a href="/products?sortOrder=price&searchQuery=@ViewBag.SearchQuery&categorySlug=@ViewBag.CategorySlug">
+                Price: High to low
+            </a>
+            <a href="/products?sortOrder=price_desc&searchQuery=@ViewBag.SearchQuery&categorySlug=@ViewBag.CategorySlug">
+                Price: Low to high
+            </a>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script type="text/javascript">
+    const url = new URL(window.location.href)
+
+    const input = document.getElementById("search")
+
+    input.value = url.searchParams.get("searchQuery") ?? ""
+    </script>
+}

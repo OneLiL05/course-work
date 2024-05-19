@@ -1,0 +1,44 @@
+@model trade_compas.DTOs.Product.CreateProductDto;
+
+@{
+    ViewData["Title"] = "New Product";
+}
+
+<section class="d-flex flex-column w-100 h-100 justify-content-center align-items-center gap-4">
+    <h1>Create product</h1>
+    <div class="card" style="width: 36rem;">
+        <form class="card-body d-flex flex-column gap-3" asp-controller="Products" enctype="multipart/form-data" asp-action="New" method="post">
+            <div class="row px-2">
+                <label asp-for="Name" class="form-label">Name</label>
+                <input asp-for="Name" type="text" inputmode="text" class="form-control mb-2" placeholder="Write product's name..." autofocus>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label asp-for="CategorySlug" class="form-label">Category</label>
+                    <select asp-for="CategorySlug" asp-items="ViewBag.Category" class="form-select"></select>
+                </div>
+                <div class="col">
+                    <label asp-for="State" class="form-label">State</label>
+                    <select asp-for="State" class="form-select" aria-label="Default select example">
+                        <option value="New">New</option>
+                        <option value="Used">Used</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label asp-for="Price" class="form-label">Price</label>
+                    <input asp-for="Price" type="number" inputmode="text" class="form-control mb-2" min="1" placeholder="Write price...">
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label">Description</label>
+                <textarea asp-for="Description" class="form-control" rows="3" placeholder="Write product's description..."></textarea>
+            </div>
+            <div class="row gap-3 px-3">
+                <a class="btn btn-outline-secondary col" asp-controller="Products" asp-action="Index" asp-area="">Back</a>
+                <button id="submit" type="submit" class="btn btn-primary col">Create</button>
+            </div>
+        </form>
+    </div>
+</section>

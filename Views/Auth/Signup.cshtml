@@ -1,0 +1,40 @@
+@model trade_compas.DTOs.Auth.SignupDto;
+
+@{
+ViewData["Title"] = "Signup";
+}
+
+<section class="d-flex flex-column w-100 h-100 justify-content-center align-items-center gap-4">
+    <h1>Sign up</h1>
+    <div class="card" style="width: 24rem;">
+        <form class="card-body d-flex flex-column gap-1" asp-action="Signup" method="post">
+            <div class="col">
+                <label for="email" class="form-label">Email</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-email">
+                        <i class="fa-solid fa-envelope"></i>
+                    </span>
+                    <input asp-for="Email" id="email" type="email" class="form-control" inputmode="email" placeholder="Write email..." aria-label="Email" aria-describedby="basic-email" autofocus>
+                </div>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <label for="repeat-password" class="form-label">Password</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-repeat-password">
+                        <i class="fa-solid fa-key"></i>
+                    </span>
+                    <input asp-for="Password" id="repeat-password" type="password" class="form-control" placeholder="Write password..." aria-label="Repeat password" aria-describedby="basic-repeat-password">
+                </div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <button class="btn btn-primary">
+                Signup
+            </button>
+        </form>
+    </div>
+    <div class="row gap-1">
+        <p class="m-0" align="center">Already have an account? <a asp-controller="Auth" asp-action="Login" asp-area="">Login</a></p>
+        <p class="m-0" align="center"><a asp-controller="Home" asp-action="Index" asp-area="">Continue as a guest</a></p>
+    </div>
+</section>
