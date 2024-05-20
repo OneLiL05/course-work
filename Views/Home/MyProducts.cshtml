@@ -45,8 +45,11 @@
                             <td>@Model[i].Name</td>
                             <td>@(string.IsNullOrEmpty(Model[i].Description) ? "-" : Model[i].Description)</td>
                             <td>$@Model[i].Price</td>
-                            <td class="d-inline-flex">
-                                <form asp-controller="Products" asp-action="Archive" asp-route-id="@Model[i].Id" method="post" style="width: 45px">
+                            <td class="d-inline-flex gap-1">
+                                <a href="/products/@Model[i].Id/edit" class="btn btn-primary">
+                                    <i class="fa-solid fa-pencil"></i>
+                                </a>
+                                <form asp-controller="Products" asp-action="Archive" asp-route-id="@Model[i].Id" method="post" style="width: 40px">
                                     <button class="btn btn-primary">
                                         <i class="fa-solid fa-box-archive"></i>
                                     </button>
