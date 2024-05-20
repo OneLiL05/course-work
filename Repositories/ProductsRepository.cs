@@ -3,7 +3,6 @@ using trade_compas.DTOs.Product;
 using trade_compas.Enums;
 using trade_compas.Interfaces.Repositories;
 using trade_compas.Interfaces.Helpers;
-using trade_compas.Interfaces.Actions;
 using trade_compas.Models;
 using trade_compas.Utilities.Actions;
 using trade_compas.Utils;
@@ -14,10 +13,10 @@ public class ProductsRepository(IPathHelper pathHelper, Supabase.Client supabase
 {
     private readonly string _collectionPath = pathHelper.GetCollectionPath("products");
     private readonly User? _user = supabaseClient.Auth.CurrentUser;
-    private readonly ISearchAction<Product> _searchAction = new SearchAction<Product>();
-    private readonly IMatchAction<Product> _matchAction = new MatchAction<Product>();
-    private readonly IDeleteAction<Product> _deleteAction = new DeleteAction<Product>();
-    private readonly ISortAction<Product> _sortAction = new SortAction<Product>();
+    private readonly SearchAction<Product> _searchAction = new();
+    private readonly MatchAction<Product> _matchAction = new();
+    private readonly DeleteAction<Product> _deleteAction = new();
+    private readonly SortAction<Product> _sortAction = new();
 
     public List<Product> GetAll()
     {
@@ -26,12 +25,9 @@ public class ProductsRepository(IPathHelper pathHelper, Supabase.Client supabase
 
     public List<Product> GetAllByCategory(string slug)
     {
-        return GetAll().Where(product => product.CategorySlug == slug).ToList();
-    }
-
-    public List<Product> GetUserArchive(string userId)
-    {
-        return GetAll().Where(product => product.SellerId == _user?.Id && product.InArchive).ToList();
+        return GetAll()
+            .Where(product => product.CategorySlug == slug)
+            .ToList();
     }
 
     public Product? GetOne(int id)
@@ -62,6 +58,52 @@ public class ProductsRepository(IPathHelper pathHelper, Supabase.Client supabase
         FileHelper.SaveData(_collectionPath, products);
     }
 
+    public void Archive(int id)
+    {
+        var products = GetAll();
+
+        products
+            .Where(product => product.Id == id)
+            .ToList()
+            .ForEach(product => product.InArchive = true);
+
+        FileHelper.SaveData(_collectionPath, products);
+    }
+
+    public List<Product> GetArchive(string userId)
+    {
+        return GetAll()
+            .Where(product => product.SellerId == userId && product.InArchive)
+            .ToList();
+    }
+
+    public List<Product> GetUnarchived()
+    {
+        return GetAll()
+            .Where(product => !product.InArchive)
+            .ToList();
+    }
+
+    public List<Product> GetUserProducts(string userId)
+    {
+        return GetAll()
+            .Where(product => product.SellerId == userId && !product.InArchive)
+            .ToList();
+    }
+
+    public void Unarchive(int id)
+    {
+        var products = GetAll();
+
+        products
+            .Where(product => product.Id == id)
+            .ToList()
+            .ForEach(product => product.InArchive = false);
+
+
+        FileHelper.SaveData(_collectionPath, products);
+    }
+
     public void DeleteOne(int id)
     {
         var products = GetAll();
@@ -75,7 +117,8 @@ public class ProductsRepository(IPathHelper pathHelper, Supabase.Client supabase
     {
         var products = GetAll();
 
-        products.Where(product => product.Id == id)
+        products
+            .Where(product => product.Id == id)
             .ToList()
             .ForEach(product =>
             {

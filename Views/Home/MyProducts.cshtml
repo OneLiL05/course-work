@@ -1,7 +1,7 @@
 @model List<Product>
 
 @{
-    ViewData["Title"] = "My archive";
+    ViewData["Title"] = "My products";
 }
 
 <section class="container">
@@ -9,9 +9,9 @@
         <div class="col-3">
             <nav class="list-group">
                 <a asp-controller="Home" asp-action="Profile" asp-area="" class="list-group-item list-group-item-action">Public profile</a>
-                <a asp-controller="Home" asp-action="MyProducts" asp-area="" class="list-group-item list-group-item-action">Products</a>
+                <a asp-controller="Home" asp-action="MyProducts" asp-area="" class="list-group-item list-group-item-action active">Products</a>
                 <a href="#" class="list-group-item list-group-item-action">Orders</a>
-                <a asp-controller="Home" asp-action="MyArchive" asp-area="" class="list-group-item list-group-item-action active">Archive</a>
+                <a asp-controller="Home" asp-action="MyArchive" asp-area="" class="list-group-item list-group-item-action">Archive</a>
             </nav>
         </div>
         <div class="d-flex flex-column col-8 gap-3">
@@ -46,9 +46,9 @@
                             <td>@(string.IsNullOrEmpty(Model[i].Description) ? "-" : Model[i].Description)</td>
                             <td>$@Model[i].Price</td>
                             <td class="d-inline-flex">
-                                <form asp-controller="Products" asp-action="Unarchive" asp-route-id="@Model[i].Id" method="post" style="width: 45px">
+                                <form asp-controller="Products" asp-action="Archive" asp-route-id="@Model[i].Id" method="post" style="width: 45px">
                                     <button class="btn btn-primary">
-                                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                        <i class="fa-solid fa-box-archive"></i>
                                     </button>
                                 </form>
                                 <form asp-controller="Products" asp-action="Delete" asp-route-id="@Model[i].Id" method="post" style="width: 45px">

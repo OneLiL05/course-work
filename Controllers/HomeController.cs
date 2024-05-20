@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using trade_compas.Enums;
 using trade_compas.Interfaces.Repositories;
 using trade_compas.Models;
 using User = Supabase.Gotrue.User;
@@ -34,7 +35,28 @@ public class HomeController(Supabase.Client supabaseClient, IProductsRepository 
             return RedirectToAction("Index");
         }
 
-        return View();
+        ViewData["User"] = _user;
+
+        var archivedProducts = productsRepository.SortBy(
+            productsRepository.GetArchive(_user.Id!),
+            product => product.CreatedAt,
+            SortingOrder.Desc);
+
+        return View(archivedProducts);
+    }
+
+    public IActionResult MyProducts()
+    {
+        if (_user == null)
+        {
+            return RedirectToAction("Index");
+        }
+
+        ViewData["User"] = _user;
+
+        var products = productsRepository.GetUserProducts(_user.Id!);
+
+        return View(products);
     }
 
     [HttpGet("/favourites")]

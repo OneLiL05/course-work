@@ -17,7 +17,10 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
     [HttpGet]
     public IActionResult Index(string searchQuery, string orderBy, SortingOrder order, string categorySlug)
     {
-        var products = productsRepository.SortBy(product => product.CreatedAt, SortingOrder.Desc);
+        var products = productsRepository.SortBy(
+            productsRepository.GetUnarchived(),
+            product => product.CreatedAt,
+            SortingOrder.Desc);
 
         ViewBag.Categories = categoriesRepository.GetAll();
         ViewBag.SearchQuery = searchQuery;
@@ -98,9 +101,38 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
         return View(dto);
     }
 
+    [HttpPost("{id:int}/archive")]
+    public IActionResult Archive(int id)
+    {
+        productsRepository.Archive(id);
+
+        return RedirectToAction("MyProducts", "Home");
+    }
+
+    [HttpPost("{id:int}/delete")]
+    public IActionResult Delete(int id)
+    {
+        productsRepository.DeleteOne(id);
+
+        return RedirectToAction("Profile", "Home");
+    }
+
+    [HttpPost("{id:int}/unarchive")]
+    public IActionResult Unarchive(int id)
+    {
+        productsRepository.Unarchive(id);
+
+        return RedirectToAction("MyArchive", "Home");
+    }
+
     [HttpGet("{id:int}")]
     public IActionResult Details(int id)
     {
+        if (_user == null)
+        {
+            return RedirectToAction("Index");
+        }
+
         ViewData["User"] = _user;
 
         var product = productsRepository.GetOne(id);
