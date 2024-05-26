@@ -12,7 +12,13 @@ public class FileHelper
 
     public static void SaveData<TEntity>(string path, List<TEntity> list)
     {
-        var json = JsonSerializer.Serialize(list);
+        var serializeOptions = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = true,
+        };
+
+        var json = JsonSerializer.Serialize(list, serializeOptions);
 
         File.WriteAllText(path, json);
     }
