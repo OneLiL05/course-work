@@ -18,6 +18,7 @@ public class ProductsRepository(IPathHelper pathHelper) : IProductsRepository
     private readonly GetOneAction<Product> _getOneAction = new();
     private readonly GetAllByAction<Product> _getAllByAction = new();
     private readonly UpdateAction<Product> _updateAction = new();
+    private readonly CreateAction<Product> _createAction = new();
 
     public List<Product> GetAll()
     {
@@ -36,14 +37,9 @@ public class ProductsRepository(IPathHelper pathHelper) : IProductsRepository
 
     public void CreateOne(CreateProductDto dto)
     {
-
-        var products = GetAll();
-
         var product = new Product(dto);
 
-        products.Add(product);
-
-        FileHelper.SaveData(_collectionPath, products);
+        _createAction.DoAction(_collectionPath, product);
     }
 
     public void Archive(int id)
