@@ -5,5 +5,4 @@ namespace trade_compas.Interfaces;
 
 public interface ICategoriesRepository : IBaseRepository<Category>
 {
-    Category? GetOne(string slug);
 }

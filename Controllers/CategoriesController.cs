@@ -16,9 +16,9 @@ public class CategoriesController(IProductsRepository productsRepository, ICateg
     }
 
     [HttpGet("/categories/{categorySlug}")]
-    public IActionResult Details(string categorySlug)
+    public IActionResult Details(string slug)
     {
-        var category = categoriesRepository.GetOne(categorySlug);
+        var category = categoriesRepository.GetOne(category => category.Slug == slug);
 
         if (category == null)
         {

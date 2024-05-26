@@ -136,7 +136,7 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
 
         ViewData["User"] = _user;
 
-        var product = productsRepository.GetOne(id);
+        var product = productsRepository.GetOne(product => product.Id == id);
 
         if (product == null)
         {
@@ -151,7 +151,7 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
     {
         ViewData["User"] = _user;
 
-        var product = productsRepository.GetOne(id);
+        var product = productsRepository.GetOne(product => product.Id == id);
 
         ViewBag.Category = _categoriesList;
 
@@ -174,7 +174,7 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
         ViewData["User"] = _user;
         ViewBag.Category = _categoriesList;
 
-        var product = productsRepository.GetOne(id);
+        var product = productsRepository.GetOne(product => product.Id == id);
 
         if (product == null)
         {
@@ -194,7 +194,7 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
     [HttpGet("order/{id:int}")]
     public IActionResult Order(int id)
     {
-        var product = productsRepository.GetOne(id);
+        var product = productsRepository.GetOne(product => product.Id == id);
 
         ViewData["User"] = _user;
 
@@ -217,7 +217,7 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
     [HttpPost("order/{id:int}")]
     public IActionResult Order(int id, CreateOrderDto dto)
     {
-        var product = productsRepository.GetOne(id);
+        var product = productsRepository.GetOne(product => product.Id == id);
         ViewData["User"] = _user;
 
         if (_user == null)

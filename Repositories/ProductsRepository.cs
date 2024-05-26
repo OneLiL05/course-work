@@ -31,9 +31,9 @@ public class ProductsRepository(IPathHelper pathHelper, Supabase.Client supabase
         return _getAllByAction.DoAction(GetAll(), predicate);
     }
 
-    public Product? GetOne(int id)
+    public Product? GetOne(Func<Product, bool> predicate)
     {
-        return _getOneAction.DoAction(GetAll(), product => product.Id, id);
+        return _getOneAction.DoAction(GetAll(), predicate);
     }
 
     public void CreateOne(CreateProductDto data)

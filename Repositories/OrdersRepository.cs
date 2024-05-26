@@ -12,16 +12,18 @@ public class OrdersRepository(IPathHelper pathHelper) : IOrdersRepository
 {
     private readonly string _collectionPath = pathHelper.GetCollectionPath("orders");
     private readonly DeleteAction<Order> _deleteAction = new();
+    private readonly GetAllAction<Order> _getAllAction = new();
     private readonly GetAllByAction<Order> _getAllByAction = new();
+    private readonly GetOneAction<Order> _getOneAction = new();
 
     public List<Order> GetAll()
     {
-        return FileHelper.LoadData<Order>(_collectionPath);
+        return _getAllAction.DoAction(_collectionPath);
     }
 
-    public Order? GetOne(int id)
+    public Order? GetOne(Func<Order, bool> predicate)
     {
-        return GetAll().Find(order => order.Id == id);
+        return _getOneAction.DoAction(GetAll(), predicate);
     }
 
     public List<Order> GetAllBy(Func<Order, bool> predicate)
