@@ -6,6 +6,8 @@ namespace trade_compas.Models;
 
 public class Order : IIdentifiable, ITimestampable
 {
+    public Order() {}
+
     public Order(CreateOrderDto dto)
     {
         Id = ++LastId;
