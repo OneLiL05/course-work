@@ -85,11 +85,7 @@ public class ProductsRepository(IPathHelper pathHelper, Supabase.Client supabase
 
     public void DeleteOne(int id)
     {
-        var products = GetAll();
-
-        _deleteAction.DoAction(products, id);
-
-        FileHelper.SaveData(_collectionPath, products);
+        _deleteAction.DoAction(_collectionPath, id);
     }
 
     public void UpdateOne(int id, CreateProductDto data)

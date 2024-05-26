@@ -56,10 +56,6 @@ public class OrdersRepository(IPathHelper pathHelper) : IOrdersRepository
 
     public void DeleteOne(int id)
     {
-        var products = GetAll();
-
-        _deleteAction.DoAction(products, id);
-
-        FileHelper.SaveData(_collectionPath ,products);
+        _deleteAction.DoAction(_collectionPath, id);
     }
 }

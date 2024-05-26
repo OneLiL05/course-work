@@ -1,11 +1,14 @@
 using trade_compas.Interfaces.Basic;
+using trade_compas.Utils;
 
 namespace trade_compas.Utilities.Actions;
 
 public class DeleteAction<T> where T : IIdentifiable
 {
-    public void DoAction(List<T> list, int id)
+    public void DoAction(string collectionPath, int id)
     {
+        var list = FileHelper.LoadData<T>(collectionPath);
+
         var item = list.Find(item => item.Id == id);
 
         if (item == null)
@@ -14,5 +17,7 @@ public class DeleteAction<T> where T : IIdentifiable
         }
 
         list.Remove(item);
+
+        FileHelper.SaveData(collectionPath, list);
     }
 }
