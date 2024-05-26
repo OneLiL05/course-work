@@ -1,4 +1,5 @@
 using System.Text.Json;
+
 namespace trade_compas.Utils;
 
 public class FileHelper
@@ -12,13 +13,7 @@ public class FileHelper
 
     public static void SaveData<TEntity>(string path, List<TEntity> list)
     {
-        var serializeOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            WriteIndented = true,
-        };
-
-        var json = JsonSerializer.Serialize(list, serializeOptions);
+        var json = JsonSerializer.Serialize(list);
 
         File.WriteAllText(path, json);
     }
