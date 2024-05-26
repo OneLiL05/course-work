@@ -14,7 +14,6 @@ public class ProductsRepository(IPathHelper pathHelper, Supabase.Client supabase
     private readonly string _collectionPath = pathHelper.GetCollectionPath("products");
     private readonly User? _user = supabaseClient.Auth.CurrentUser;
     private readonly SearchAction<Product> _searchAction = new();
-    private readonly MatchAction<Product> _matchAction = new();
     private readonly DeleteAction<Product> _deleteAction = new();
     private readonly SortAction<Product> _sortAction = new();
     private readonly GetAllAction<Product> _getAllAction = new();
@@ -116,11 +115,6 @@ public class ProductsRepository(IPathHelper pathHelper, Supabase.Client supabase
     public List<Product> Search(Func<Product, string> keySelector, string query)
     {
         return _searchAction.DoAction(GetAll(), keySelector, query);
-    }
-
-    public List<Product> Match(Func<Product, object> keySelector, object matcher)
-    {
-        return _matchAction.DoAction(GetAll(), keySelector, matcher);
     }
 
     public List<Product> SortBy(Func<Product, object> keySelector, SortingOrder order)

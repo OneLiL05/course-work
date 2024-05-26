@@ -43,7 +43,7 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
         if (!string.IsNullOrEmpty(categorySlug))
         {
             products = productsRepository.SortBy(
-                productsRepository.Match(product => product.CategorySlug, categorySlug),
+                productsRepository.GetAllBy(product => product.CategorySlug == categorySlug),
                 product => product.CreatedAt,
                 SortingOrder.Desc
             );
