@@ -1,9 +1,8 @@
 using trade_compas.Enums;
-using trade_compas.Interfaces.Actions;
 
 namespace trade_compas.Utilities.Actions;
 
-public class SortAction<TEntity> : ISortAction<TEntity>
+public class SortAction<TEntity>
 {
     public List<TEntity> DoAction(List<TEntity> list, Func<TEntity, object> keySelector, SortingOrder order)
     {

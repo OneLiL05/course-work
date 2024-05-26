@@ -12,6 +12,7 @@ public class OrdersRepository(IPathHelper pathHelper) : IOrdersRepository
 {
     private readonly string _collectionPath = pathHelper.GetCollectionPath("orders");
     private readonly DeleteAction<Order> _deleteAction = new();
+    private readonly GetAllByAction<Order> _getAllByAction = new();
 
     public List<Order> GetAll()
     {
@@ -21,6 +22,11 @@ public class OrdersRepository(IPathHelper pathHelper) : IOrdersRepository
     public Order? GetOne(int id)
     {
         return GetAll().Find(order => order.Id == id);
+    }
+
+    public List<Order> GetAllBy(Func<Order, bool> predicate)
+    {
+        return _getAllByAction.DoAction(GetAll(), predicate);
     }
 
     public void CreateOne(CreateOrderDto dto)

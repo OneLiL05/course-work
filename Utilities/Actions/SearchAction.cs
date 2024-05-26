@@ -1,8 +1,6 @@
-using trade_compas.Interfaces.Actions;
-
 namespace trade_compas.Utilities.Actions;
 
-public class SearchAction<T> : ISearchAction<T>
+public class SearchAction<T>
 {
     public List<T> DoAction(List<T> list, Func<T, string> keySelector, string query)
     {

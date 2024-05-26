@@ -19,17 +19,16 @@ public class ProductsRepository(IPathHelper pathHelper, Supabase.Client supabase
     private readonly SortAction<Product> _sortAction = new();
     private readonly GetAllAction<Product> _getAllAction = new();
     private readonly GetOneAction<Product> _getOneAction = new();
+    private readonly GetAllByAction<Product> _getAllByAction = new();
 
     public List<Product> GetAll()
     {
         return _getAllAction.DoAction(_collectionPath);
     }
 
-    public List<Product> GetAllByCategory(string slug)
+    public List<Product> GetAllBy(Func<Product, bool> predicate)
     {
-        return GetAll()
-            .Where(product => product.CategorySlug == slug)
-            .ToList();
+        return _getAllByAction.DoAction(GetAll(), predicate);
     }
 
     public Product? GetOne(int id)
@@ -70,27 +69,6 @@ public class ProductsRepository(IPathHelper pathHelper, Supabase.Client supabase
             .ForEach(product => product.InArchive = true);
 
         FileHelper.SaveData(_collectionPath, products);
-    }
-
-    public List<Product> GetArchive(string userId)
-    {
-        return GetAll()
-            .Where(product => product.SellerId == userId && product.InArchive)
-            .ToList();
-    }
-
-    public List<Product> GetUnarchived()
-    {
-        return GetAll()
-            .Where(product => !product.InArchive)
-            .ToList();
-    }
-
-    public List<Product> GetUserProducts(string userId)
-    {
-        return GetAll()
-            .Where(product => product.SellerId == userId && !product.InArchive)
-            .ToList();
     }
 
     public void Unarchive(int id)

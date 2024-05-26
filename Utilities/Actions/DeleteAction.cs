@@ -1,9 +1,8 @@
-using trade_compas.Interfaces.Actions;
 using trade_compas.Interfaces.Basic;
 
 namespace trade_compas.Utilities.Actions;
 
-public class DeleteAction<T> : IDeleteAction<T> where T : IIdentifiable
+public class DeleteAction<T> where T : IIdentifiable
 {
     public void DoAction(List<T> list, int id)
     {

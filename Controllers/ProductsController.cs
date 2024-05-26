@@ -5,7 +5,6 @@ using trade_compas.DTOs.Product;
 using trade_compas.Interfaces;
 using trade_compas.Interfaces.Repositories;
 using trade_compas.Enums;
-using trade_compas.Models;
 using trade_compas.Utilities.DTOs.Order;
 
 namespace trade_compas.Controllers;
@@ -20,7 +19,7 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
     public IActionResult Index(string searchQuery, string orderBy, SortingOrder order, string categorySlug)
     {
         var products = productsRepository.SortBy(
-            productsRepository.GetUnarchived(),
+            productsRepository.GetAllBy(product => !product.InArchive),
             product => product.CreatedAt,
             SortingOrder.Desc);
 
@@ -237,12 +236,6 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
         dto.Recipient.Id = _user.Id;
         dto.SellerId = product.SellerId;
         dto.ProductId = product.Id;
-
-        var messages = string.Join("; ", ModelState.Values
-            .SelectMany(x => x.Errors)
-            .Select(x => x.ErrorMessage));
-
-        Console.WriteLine(messages);
 
         if (ModelState.IsValid)
         {

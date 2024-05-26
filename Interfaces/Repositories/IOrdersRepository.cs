@@ -5,7 +5,6 @@ using trade_compas.Utilities.DTOs.Order;
 
 namespace trade_compas.Interfaces.Repositories;
 
-public interface IOrdersRepository : IBaseRepository<Order>, ICreatable<CreateOrderDto>, IUpdatable<OrderStatus>, IDeletable
+public interface IOrdersRepository : IBaseRepository<Order>, ICreatable<CreateOrderDto>, IUpdatable<OrderStatus>, IDeletable, IGetableBy<Order>
 {
-
 }
