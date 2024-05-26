@@ -20,4 +20,6 @@ public class CreateProductDto
 
     [Required]
     public string CategorySlug { get; set; }
+
+    public string SellerId { get; set; }
 }

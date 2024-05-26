@@ -9,10 +9,9 @@ using trade_compas.Utils;
 
 namespace trade_compas.Repositories;
 
-public class ProductsRepository(IPathHelper pathHelper, Supabase.Client supabaseClient) : IProductsRepository
+public class ProductsRepository(IPathHelper pathHelper) : IProductsRepository
 {
     private readonly string _collectionPath = pathHelper.GetCollectionPath("products");
-    private readonly User? _user = supabaseClient.Auth.CurrentUser;
     private readonly SearchAction<Product> _searchAction = new();
     private readonly DeleteAction<Product> _deleteAction = new();
     private readonly SortAction<Product> _sortAction = new();
@@ -35,23 +34,12 @@ public class ProductsRepository(IPathHelper pathHelper, Supabase.Client supabase
         return _getOneAction.DoAction(GetAll(), predicate);
     }
 
-    public void CreateOne(CreateProductDto data)
+    public void CreateOne(CreateProductDto dto)
     {
 
         var products = GetAll();
 
-        var product = new Product()
-        {
-            Id = products.Count + 1,
-            CreatedAt = DateTime.Now,
-            UpdatedAt = DateTime.Now,
-            Name = data.Name,
-            Description = string.IsNullOrEmpty(data.Description) ? "" : data.Description,
-            Price = data.Price,
-            State = data.State,
-            CategorySlug = data.CategorySlug,
-            SellerId = _user?.Id!,
-        };
+        var product = new Product(dto);
 
         products.Add(product);
 

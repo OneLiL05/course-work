@@ -86,6 +86,8 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
         {
             try
             {
+
+                dto.SellerId = _user?.Id!;
                 productsRepository.CreateOne(dto);
 
                 return RedirectToAction("Index");
