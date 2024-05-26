@@ -17,10 +17,12 @@ public class ProductsRepository(IPathHelper pathHelper, Supabase.Client supabase
     private readonly MatchAction<Product> _matchAction = new();
     private readonly DeleteAction<Product> _deleteAction = new();
     private readonly SortAction<Product> _sortAction = new();
+    private readonly GetAllAction<Product> _getAllAction = new();
+    private readonly GetOneAction<Product> _getOneAction = new();
 
     public List<Product> GetAll()
     {
-        return FileHelper.LoadData<Product>(_collectionPath);
+        return _getAllAction.DoAction(_collectionPath);
     }
 
     public List<Product> GetAllByCategory(string slug)
@@ -32,7 +34,7 @@ public class ProductsRepository(IPathHelper pathHelper, Supabase.Client supabase
 
     public Product? GetOne(int id)
     {
-        return GetAll().Find(product => product.Id == id);
+        return _getOneAction.DoAction(GetAll(), product => product.Id, id);
     }
 
     public void CreateOne(CreateProductDto data)

@@ -20,8 +20,8 @@
             {
                 <div class="card text-center">
                     <div class="card-body p-5">
-                        <h5 class="card-title">Archive is empty</h5>
-                        <p class="card-text">There is no product found in your archive.</p>
+                        <h5 class="card-title">Your products not found</h5>
+                        <p class="card-text">There is no product created by you.</p>
                     </div>
                 </div>
             }
@@ -42,7 +42,9 @@
                     {
                         <tr>
                             <th scope="row">@(i+1)</th>
-                            <td>@Model[i].Name</td>
+                            <td>
+                                <a asp-controller="Products" asp-action="Details" asp-area="" asp-route-id="@Model[i].Id">@Model[i].Name</a>
+                            </td>
                             <td>@(string.IsNullOrEmpty(Model[i].Description) ? "-" : Model[i].Description)</td>
                             <td>$@Model[i].Price</td>
                             <td class="d-inline-flex gap-1">

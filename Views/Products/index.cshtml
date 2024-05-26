@@ -61,10 +61,10 @@
                     <div class="card" style="width: 16rem;">
                         <img src="~/uploads/product-placeholder.webp" class="card-img-top" alt="Product image">
                         <div class="card-body">
-                            <h5 class="card-title">@StringHelper.Trim(product.Name, 20)</h5>
+                            <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="h5 card-title">@StringHelper.Trim(product.Name, 20)</a>
                             <p class="card-text">$@product.Price</p>
                             <div class="d-inline-flex w-100 justify-content-between">
-                                <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary">Visit</a>
+                                <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary">Order</a>
                                 <button type="button" class="btn btn-outline-danger">
                                     <i class="fa-regular fa-heart"></i>
                                 </button>

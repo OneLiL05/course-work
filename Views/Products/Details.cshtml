@@ -25,11 +25,33 @@
     </div>
 </header>
 <section class="row gap-3">
-    <div class="col-8">123</div>
+    <div class="col-8">
+        <div class="card">
+            <div class="card-body p-4">
+                @if (string.IsNullOrEmpty(@Model.Description))
+                {
+                    <h5 class="card-title">Product doesn't have description</h5>
+                }
+                else
+                {
+                    <p>@Model.Description</p>
+                }
+            </div>
+        </div>
+    </div>
     <div class="col-3">
-        <h2>@Model.Name</h2>
-        <button class="btn btn-primary">
-            Order with delivery
-        </button>
+        <div class="card">
+            <div class="card-body">
+                <h2>@Model.Name</h2>
+                <div class="col mt-4">
+                    <a class="btn btn-primary w-100" asp-action="Order" asp-route-id="@Model.Id">
+                        Order with delivery
+                    </a>
+                    <button class="btn btn-outline-secondary w-100 mt-2">
+                        Add to cart
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </section>

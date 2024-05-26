@@ -1,0 +1,52 @@
+@model trade_compas.Utilities.DTOs.Order.CreateOrderDto;
+
+@{
+    ViewData["Title"] = "Order";
+}
+
+<section class="d-flex flex-column w-100 h-100 justify-content-center align-items-center gap-4">
+    <h1>Order product</h1>
+    <div class="card" style="width: 36rem;">
+        <form class="card-body d-flex flex-column gap-3" asp-controller="Products" asp-action="Order" asp-route-id="@ViewBag.ProductId" method="post">
+            <div class="row px-2">
+                <div class="col">
+                    <label asp-for="Recipient.FirstName" class="form-label">First Name</label>
+                    <input asp-for="Recipient.FirstName" type="text" inputmode="text" class="form-control mb-2" placeholder="e. g. Sam">
+                    <span asp-validation-for="Recipient.FirstName" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label asp-for="Recipient.LastName" class="form-label">Last Name</label>
+                    <input asp-for="Recipient.LastName" type="text" inputmode="text" class="form-control mb-2" placeholder="e. g. Smith">
+                    <span asp-validation-for="Recipient.LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col px-2">
+                <label asp-for="Recipient.Address" class="form-label">Address</label>
+                <input asp-for="Recipient.Address" type="text" inputmode="text" class="form-control mb-2" placeholder="Write your address...">
+                <span asp-validation-for="Recipient.Address" class="text-danger"></span>
+            </div>
+            <div class="col px-2">
+                <label asp-for="Recipient.Phone" class="form-label">Contact phone</label>
+                <input asp-for="Recipient.Phone" type="tel" inputmode="numeric" class="form-control mb-2" placeholder="Write your contact phone...">
+                <span asp-validation-for="Recipient.Phone" class="text-danger"></span>
+            </div>
+            <div class="col px-2">
+                <label asp-for="Recipient.Email" class="form-label">Email</label>
+                <input asp-for="Recipient.Email" type="email" inputmode="numeric" class="form-control mb-2" placeholder="Write your email...">
+                <span asp-validation-for="Recipient.Email" class="text-danger"></span>
+            </div>
+            <div class="col w-100">
+                <hr />
+                <div class="d-inline-flex w-100 align-items-center justify-content-between">
+                    <strong>Summary:</strong>
+                    <p class="m-0">$@ViewBag.Price</p>
+                </div>
+                <hr />
+            </div>
+            <div class="row gap-3 px-3">
+                <a class="btn btn-outline-secondary col" asp-action="Details" asp-route-id="@ViewBag.ProductId" asp-area="">Back</a>
+                <button id="submit" type="submit" class="btn btn-primary col">Order</button>
+            </div>
+        </form>
+    </div>
+</section>

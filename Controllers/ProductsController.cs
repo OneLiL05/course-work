@@ -5,11 +5,13 @@ using trade_compas.DTOs.Product;
 using trade_compas.Interfaces;
 using trade_compas.Interfaces.Repositories;
 using trade_compas.Enums;
+using trade_compas.Models;
+using trade_compas.Utilities.DTOs.Order;
 
 namespace trade_compas.Controllers;
 
 [Route("products")]
-public class ProductsController(Supabase.Client supabaseClient, IProductsRepository productsRepository, ICategoriesRepository categoriesRepository) : Controller
+public class ProductsController(Supabase.Client supabaseClient, IProductsRepository productsRepository, ICategoriesRepository categoriesRepository, IOrdersRepository ordersRepository) : Controller
 {
     private readonly User? _user = supabaseClient.Auth.CurrentUser;
     private readonly SelectList _categoriesList = new(categoriesRepository.GetAll(), "Slug", "Name");
@@ -171,14 +173,14 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
     public IActionResult Edit(int id, CreateProductDto dto)
     {
         ViewData["User"] = _user;
-        var product = productsRepository.GetOne(id);
         ViewBag.Category = _categoriesList;
+
+        var product = productsRepository.GetOne(id);
 
         if (product == null)
         {
             return NotFound();
         }
-
 
         if (ModelState.IsValid)
         {
@@ -188,5 +190,67 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
         }
 
         return View(product);
+    }
+
+    [HttpGet("order/{id:int}")]
+    public IActionResult Order(int id)
+    {
+        var product = productsRepository.GetOne(id);
+
+        ViewData["User"] = _user;
+
+        if (_user == null)
+        {
+            return RedirectToAction("Index");
+        }
+
+        if (product == null)
+        {
+            return NotFound();
+        }
+
+        ViewBag.ProductId = product.Id;
+        ViewBag.Price = product.Price;
+
+        return View();
+    }
+
+    [HttpPost("order/{id:int}")]
+    public IActionResult Order(int id, CreateOrderDto dto)
+    {
+        var product = productsRepository.GetOne(id);
+        ViewData["User"] = _user;
+
+        if (_user == null)
+        {
+            return RedirectToAction("Index");
+        }
+
+        if (product == null)
+        {
+            return NotFound();
+        }
+
+        ViewBag.ProductId = product.Id;
+        ViewBag.Price = product.Price;
+
+        dto.Recipient.Id = _user.Id;
+        dto.SellerId = product.SellerId;
+        dto.ProductId = product.Id;
+
+        var messages = string.Join("; ", ModelState.Values
+            .SelectMany(x => x.Errors)
+            .Select(x => x.ErrorMessage));
+
+        Console.WriteLine(messages);
+
+        if (ModelState.IsValid)
+        {
+            ordersRepository.CreateOne(dto);
+
+            return RedirectToAction("Index");
+        }
+
+        return View(dto);
     }
 }
