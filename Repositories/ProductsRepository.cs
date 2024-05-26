@@ -1,4 +1,3 @@
-using Supabase.Gotrue;
 using trade_compas.DTOs.Product;
 using trade_compas.Enums;
 using trade_compas.Interfaces.Repositories;
@@ -18,6 +17,7 @@ public class ProductsRepository(IPathHelper pathHelper) : IProductsRepository
     private readonly GetAllAction<Product> _getAllAction = new();
     private readonly GetOneAction<Product> _getOneAction = new();
     private readonly GetAllByAction<Product> _getAllByAction = new();
+    private readonly UpdateAction<Product> _updateAction = new();
 
     public List<Product> GetAll()
     {
@@ -48,27 +48,18 @@ public class ProductsRepository(IPathHelper pathHelper) : IProductsRepository
 
     public void Archive(int id)
     {
-        var products = GetAll();
-
-        products
-            .Where(product => product.Id == id)
-            .ToList()
-            .ForEach(product => product.InArchive = true);
-
-        FileHelper.SaveData(_collectionPath, products);
+        _updateAction.DoAction(
+            _collectionPath,
+            product => product.Id == id,
+            product => product.InArchive = true);
     }
 
     public void Unarchive(int id)
     {
-        var products = GetAll();
-
-        products
-            .Where(product => product.Id == id)
-            .ToList()
-            .ForEach(product => product.InArchive = false);
-
-
-        FileHelper.SaveData(_collectionPath, products);
+        _updateAction.DoAction(
+            _collectionPath,
+            product => product.Id == id,
+            product => product.InArchive = false);
     }
 
     public void DeleteOne(int id)
@@ -78,12 +69,10 @@ public class ProductsRepository(IPathHelper pathHelper) : IProductsRepository
 
     public void UpdateOne(int id, CreateProductDto data)
     {
-        var products = GetAll();
-
-        products
-            .Where(product => product.Id == id)
-            .ToList()
-            .ForEach(product =>
+        _updateAction.DoAction(
+            _collectionPath,
+            product => product.Id == id,
+            product =>
             {
                 product.UpdatedAt = DateTime.Now;
                 product.Name = data.Name;
@@ -92,8 +81,6 @@ public class ProductsRepository(IPathHelper pathHelper) : IProductsRepository
                 product.State = data.State;
                 product.CategorySlug = data.CategorySlug;
             });
-
-        FileHelper.SaveData(_collectionPath, products);
     }
 
     public List<Product> Search(Func<Product, string> keySelector, string query)

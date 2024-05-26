@@ -15,6 +15,7 @@ public class OrdersRepository(IPathHelper pathHelper) : IOrdersRepository
     private readonly GetAllAction<Order> _getAllAction = new();
     private readonly GetAllByAction<Order> _getAllByAction = new();
     private readonly GetOneAction<Order> _getOneAction = new();
+    private readonly UpdateAction<Order> _updateAction = new();
 
     public List<Order> GetAll()
     {
@@ -44,14 +45,10 @@ public class OrdersRepository(IPathHelper pathHelper) : IOrdersRepository
 
     public void UpdateOne(int id, OrderStatus dto)
     {
-        var orders = GetAll();
-
-        orders
-            .Where(order => order.Id == id)
-            .ToList()
-            .ForEach(order => order.Status = dto);
-
-        FileHelper.SaveData(_collectionPath, orders);
+        _updateAction.DoAction(
+            _collectionPath,
+            order => order.Id == id,
+            order => order.Status = dto);
     }
 
     public void DeleteOne(int id)
