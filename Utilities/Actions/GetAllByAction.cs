@@ -2,10 +2,10 @@ namespace trade_compas.Utilities.Actions;
 
 public class GetAllByAction<TEntity>
 {
-    public List<TEntity> DoAction(List<TEntity> list, Func<TEntity, bool> predicate)
+    public List<TEntity> DoAction(List<TEntity> list, Predicate<TEntity> match)
     {
         return list
-            .Where(predicate)
+            .Where(entity => match(entity))
             .ToList();
     }
 }

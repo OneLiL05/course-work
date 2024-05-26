@@ -24,14 +24,14 @@ public class ProductsRepository(IPathHelper pathHelper) : IProductsRepository
         return _getAllAction.DoAction(_collectionPath);
     }
 
-    public List<Product> GetAllBy(Func<Product, bool> predicate)
+    public List<Product> GetAllBy(Predicate<Product> match)
     {
-        return _getAllByAction.DoAction(GetAll(), predicate);
+        return _getAllByAction.DoAction(GetAll(), match);
     }
 
-    public Product? GetOne(Func<Product, bool> predicate)
+    public Product? GetOne(Predicate<Product> match)
     {
-        return _getOneAction.DoAction(GetAll(), predicate);
+        return _getOneAction.DoAction(GetAll(), match);
     }
 
     public void CreateOne(CreateProductDto dto)

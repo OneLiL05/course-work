@@ -16,8 +16,8 @@ public class CategoriesRepository(IPathHelper pathHelper) : ICategoriesRepositor
         return FileHelper.LoadData<Category>(_collectionPath);
     }
 
-    public Category? GetOne(Func<Category, bool> predicate)
+    public Category? GetOne(Predicate<Category> match)
     {
-        return _getOneAction.DoAction(GetAll(), predicate);
+        return _getOneAction.DoAction(GetAll(), match);
     }
 }

@@ -4,5 +4,5 @@ public interface IBaseRepository<TEntity>
 {
     List<TEntity> GetAll();
 
-    TEntity? GetOne(Func<TEntity, bool> predicate);
+    TEntity? GetOne(Predicate<TEntity> match);
 }

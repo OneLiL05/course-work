@@ -21,14 +21,14 @@ public class OrdersRepository(IPathHelper pathHelper) : IOrdersRepository
         return _getAllAction.DoAction(_collectionPath);
     }
 
-    public Order? GetOne(Func<Order, bool> predicate)
+    public Order? GetOne(Predicate<Order> match)
     {
-        return _getOneAction.DoAction(GetAll(), predicate);
+        return _getOneAction.DoAction(GetAll(), match);
     }
 
-    public List<Order> GetAllBy(Func<Order, bool> predicate)
+    public List<Order> GetAllBy(Predicate<Order> match)
     {
-        return _getAllByAction.DoAction(GetAll(), predicate);
+        return _getAllByAction.DoAction(GetAll(), match);
     }
 
     public void CreateOne(CreateOrderDto dto)

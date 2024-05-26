@@ -2,8 +2,8 @@ namespace trade_compas.Utilities.Actions;
 
 public class GetOneAction<TEntity>
 {
-    public TEntity? DoAction(List<TEntity> list, Func<TEntity, bool> predicate)
+    public TEntity? DoAction(List<TEntity> list, Predicate<TEntity> match)
     {
-        return list.Find(item => predicate(item));
+        return list.Find(match);
     }
 }
