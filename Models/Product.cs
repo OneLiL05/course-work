@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using trade_compas.DTOs.Product;
 using trade_compas.Interfaces.Basic;
 

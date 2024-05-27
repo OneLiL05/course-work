@@ -4,7 +4,7 @@ using trade_compas.Utilities.DTOs.Order;
 
 namespace trade_compas.Models;
 
-public class Order : IIdentifiable, ITimestampable
+public class Order : CreateOrderDto, IIdentifiable, ITimestampable
 {
     public Order() {}
 
@@ -15,8 +15,7 @@ public class Order : IIdentifiable, ITimestampable
         UpdatedAt = DateTime.Now;
         Status = OrderStatus.New;
         Recipient = dto.Recipient;
-        ProductId = dto.ProductId;
-        SellerId = dto.SellerId;
+        Product = dto.Product;
     }
 
     private static int LastId = 0;
@@ -24,7 +23,4 @@ public class Order : IIdentifiable, ITimestampable
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public OrderStatus Status { get; set; }
-    public Recipient Recipient { get; set; }
-    public int ProductId { get; set; }
-    public string SellerId { get; set; }
 }

@@ -1,0 +1,61 @@
+@model List<Order>
+
+@{
+    ViewData["Title"] = "My orders";
+    Layout = "_Layout";
+}
+
+<section class="container">
+    <div class="row">
+        <div class="col-3">
+            <nav class="list-group">
+                <a asp-controller="Home" asp-action="Profile" asp-area="" class="list-group-item list-group-item-action">Public profile</a>
+                <a asp-controller="Home" asp-action="MyProducts" asp-area="" class="list-group-item list-group-item-action">Products</a>
+                <a asp-controller="Home" asp-action="MyOrders" class="list-group-item list-group-item-action active">Orders</a>
+                <a asp-controller="Home" asp-action="MyArchive" asp-area="" class="list-group-item list-group-item-action">Archive</a>
+            </nav>
+        </div>
+        <div class="d-flex flex-column col-8 gap-3">
+            <h3>My orders</h3>
+            @if (Model.Count == 0)
+            {
+                <div class="card text-center">
+                    <div class="card-body p-5">
+                        <h5 class="card-title">Your orders not found</h5>
+                        <p class="card-text">There is no product ordered by you.</p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for (var i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <th scope="row">@(i+1)</th>
+                            <td>
+                                <a asp-controller="Products" asp-action="Details" asp-area="" asp-route-id="@Model[i].Product.Id">@Model[i].Product.Name</a>
+                            </td>
+                            <td>@(string.IsNullOrEmpty(Model[i].Product.Description) ? "-" : Model[i].Product.Description)</td>
+                            <td>$@Model[i].Product.Price</td>
+                            <td class="d-inline-flex gap-1">
+                                <span class="badge @ViewBag.ClassNames[@Model[i].Status]">@Model[i].Status</span>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</section>

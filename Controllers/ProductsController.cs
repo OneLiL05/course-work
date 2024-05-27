@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Supabase.Gotrue;
 using trade_compas.DTOs.Product;
 using trade_compas.Interfaces;
 using trade_compas.Interfaces.Repositories;
 using trade_compas.Enums;
+using trade_compas.Models;
 using trade_compas.Utilities.DTOs.Order;
 
 namespace trade_compas.Controllers;
@@ -131,11 +133,6 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
     [HttpGet("{id:int}")]
     public IActionResult Details(int id)
     {
-        if (_user == null)
-        {
-            return RedirectToAction("Index");
-        }
-
         ViewData["User"] = _user;
 
         var product = productsRepository.GetOne(product => product.Id == id);
@@ -217,7 +214,7 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
     }
 
     [HttpPost("order/{id:int}")]
-    public IActionResult Order(int id, CreateOrderDto dto)
+    public IActionResult Order(int id, Recipient recipient)
     {
         var product = productsRepository.GetOne(product => product.Id == id);
         ViewData["User"] = _user;
@@ -235,17 +232,21 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
         ViewBag.ProductId = product.Id;
         ViewBag.Price = product.Price;
 
-        dto.Recipient.Id = _user.Id;
-        dto.SellerId = product.SellerId;
-        dto.ProductId = product.Id;
-
         if (ModelState.IsValid)
         {
+            recipient.Id = _user.Id!;
+
+            var dto = new CreateOrderDto()
+            {
+                Recipient = recipient,
+                Product = product,
+            };
+
             ordersRepository.CreateOne(dto);
 
             return RedirectToAction("Index");
         }
 
-        return View(dto);
+        return View(recipient);
     }
 }

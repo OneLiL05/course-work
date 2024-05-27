@@ -7,7 +7,7 @@ using User = Supabase.Gotrue.User;
 
 namespace trade_compas.Controllers;
 
-public class HomeController(Supabase.Client supabaseClient, IProductsRepository productsRepository)
+public class HomeController(Supabase.Client supabaseClient, IProductsRepository productsRepository, IOrdersRepository ordersRepository)
     : Controller
 {
     private readonly User? _user = supabaseClient.Auth.CurrentUser;
@@ -59,18 +59,46 @@ public class HomeController(Supabase.Client supabaseClient, IProductsRepository 
         return View(products);
     }
 
-    [HttpGet("/favourites")]
-    public IActionResult Favourites()
+    [HttpGet("/profile/orders")]
+    public IActionResult MyOrders()
     {
-        var favourites = new List<Product>();
+        if (_user == null)
+        {
+            return RedirectToAction("Index");
+        }
 
-        return View(favourites);
+        ViewData["User"] = _user;
+
+        var classNames = new Dictionary<OrderStatus, string>()
+        {
+            { OrderStatus.Canceled , "text-bg-danger" },
+            { OrderStatus.New, "text-bg-primary" },
+            { OrderStatus.Sent, "text-bg-success" },
+            { OrderStatus.ToSent, "text-bg-info" }
+        };
+
+        ViewBag.ClassNames = classNames;
+
+        var orders = ordersRepository.GetAllBy(order => order.Recipient.Id == _user.Id);
+
+        return View(orders);
     }
 
-    public IActionResult Privacy()
+    [HttpGet("/profile/customer-orders")]
+    public IActionResult CustomerOrders()
     {
-        return View();
+        if (_user == null)
+        {
+            return RedirectToAction("Index");
+        }
+
+        ViewData["User"] = _user;
+
+        var orders = ordersRepository.GetAllBy(order => order.Product.SellerId == _user.Id);
+
+        return View(orders);
     }
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

@@ -24,11 +24,6 @@ builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
 builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
-builder.Services.AddRazorPages().AddMvcOptions(options =>
-{
-    options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
-        _ => "The field is required");
-});
 
 builder.Services.AddControllersWithViews();
 

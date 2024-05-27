@@ -12,7 +12,7 @@ public class CreateProductDto
     [StringLength(500, ErrorMessage = "Description length can't be more than 500")]
     public string? Description { get; set; }
 
-    [Required(ErrorMessage = "Price is required")]
+    [Range(1.0, double.MaxValue, ErrorMessage = "Price should be at least $1")]
     public double Price { get; set; }
 
     [Required]

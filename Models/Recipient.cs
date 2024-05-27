@@ -5,7 +5,7 @@ namespace trade_compas.Models;
 
 public class Recipient
 {
-    public string Id { get; set; } = "";
+    public string Id { get; set; }
 
     [Required(ErrorMessage = "First name is required")]
     public string FirstName { get; set; }

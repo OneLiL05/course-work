@@ -11,44 +11,9 @@
     <link rel="stylesheet" href="~/trade_compas.styles.css" asp-append-version="true"/>
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark px-4">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="javascript:void(0)">Logo</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="mynavbar">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
-                    </li>
-                </ul>
-                @if (1 > 2)
-                {
-                    <span class="avatar">
-                        <i class="fa-solid fa-user"></i>
-                    </span>
-                }
-                else
-                {
-                    <div class="d-flex gap-2">
-                        <a class="btn btn-outline-light" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
-                        <button class="btn btn-primary" type="button">Sign up</button>
-                    </div>
-                }
-            </div>
-        </div>
-    </nav>
-</header>
-<div class="container">
-    <main role="main" class="p-4">
-        @RenderBody()
-    </main>
-</div>
+<main class="d-flex justify-content-center align-items-center w-100 vh-100">
+    @RenderBody()
+</main>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
