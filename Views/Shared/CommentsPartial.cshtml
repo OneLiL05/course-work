@@ -1,0 +1,32 @@
+@using trade_compas.Helpers
+@model List<Comment>
+
+@if (Model.Count == 0)
+{
+    <div class="card text-center">
+        <div class="card-body p-5">
+            <h5 class="card-title">No comment was found</h5>
+            <p class="card-text">There is no comment found for this product.</p>
+        </div>
+    </div>
+}
+else
+{
+    <ul class="d-flex flex-column gap-2">
+        @foreach (var comment in Model)
+        {
+            <li class="comment">
+                <div class="comment_avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="comment-body">
+                    <div class="comment-body__header">
+                        <p>123</p>
+                        <p>@TimeHelper.GetRelativeTime(comment.CreatedAt)</p>
+                    </div>
+                    <p>@comment.Content</p>
+                </div>
+            </li>
+        }
+    </ul>
+}

@@ -24,6 +24,7 @@ builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
 builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
+builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
 
 builder.Services.AddControllersWithViews();
 
@@ -44,6 +45,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Products}/{action=Index}/{id?}");
 
 app.Run();

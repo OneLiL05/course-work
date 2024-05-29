@@ -4,7 +4,6 @@ using trade_compas.Interfaces.Repositories;
 using trade_compas.Interfaces.Helpers;
 using trade_compas.Models;
 using trade_compas.Utilities.Actions;
-using trade_compas.Utils;
 
 namespace trade_compas.Repositories;
 
@@ -93,5 +92,15 @@ public class ProductsRepository(IPathHelper pathHelper) : IProductsRepository
     {
         return _sortAction.DoAction(list, keySelector, order);
     }
-}
 
+    public void AddComment(int id, Comment comment)
+    {
+        _updateAction.DoAction(
+            _collectionPath,
+            product => product.Id == id,
+            product =>
+            {
+                product.Comments.Add(comment);
+            });
+    }
+}

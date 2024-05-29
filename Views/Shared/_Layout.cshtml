@@ -20,13 +20,10 @@
             <div class="collapse navbar-collapse" id="mynavbar">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
+                        <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index">Home</a>
                     </li>
                 </ul>
-                @if (@ViewData["User"] == null)
+                @if (@ViewBag.User == null)
                 {
                     <div class="d-flex gap-2">
                         <a class="btn btn-outline-light" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
@@ -36,9 +33,6 @@
                 else
                 {
                     <div class="d-flex gap-2">
-                        <button type="button" class="btn btn-dark">
-                            <i class="fa-solid fa-heart"></i>
-                        </button>
                         <a asp-controller="Home" asp-action="Profile" asp-area="" class="avatar">
                             <i class="fa-solid fa-user"></i>
                         </a>

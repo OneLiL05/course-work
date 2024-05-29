@@ -17,7 +17,7 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
     private readonly User? _user = supabaseClient.Auth.CurrentUser;
     private readonly SelectList _categoriesList = new(categoriesRepository.GetAll(), "Slug", "Name");
 
-    [HttpGet]
+    [HttpGet("/")]
     public IActionResult Index(string searchQuery, string orderBy, SortingOrder order, string categorySlug)
     {
         var products = productsRepository.SortBy(
@@ -133,7 +133,7 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
     [HttpGet("{id:int}")]
     public IActionResult Details(int id)
     {
-        ViewData["User"] = _user;
+        ViewBag.User = _user;
 
         var product = productsRepository.GetOne(product => product.Id == id);
 

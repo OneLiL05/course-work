@@ -10,7 +10,7 @@ public class CreateProductDto
     public string Name { get; set; }
 
     [StringLength(500, ErrorMessage = "Description length can't be more than 500")]
-    public string? Description { get; set; }
+    public string? Description { get; set; } = "";
 
     [Range(1.0, double.MaxValue, ErrorMessage = "Price should be at least $1")]
     public double Price { get; set; }
@@ -21,5 +21,5 @@ public class CreateProductDto
     [Required]
     public string CategorySlug { get; set; }
 
-    public string SellerId { get; set; }
+    public string SellerId { get; set; } = "";
 }

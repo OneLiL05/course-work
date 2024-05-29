@@ -8,4 +8,6 @@ public interface IProductsRepository : IBaseRepository<Product>, ICreatable<Crea
 {
     void Archive(int id);
     void Unarchive(int id);
+
+    void AddComment(int id, Comment comment);
 }

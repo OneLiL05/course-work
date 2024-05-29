@@ -12,13 +12,6 @@ public class HomeController(Supabase.Client supabaseClient, IProductsRepository 
 {
     private readonly User? _user = supabaseClient.Auth.CurrentUser;
 
-    public IActionResult Index()
-    {
-        ViewData["User"] = _user;
-
-        return View();
-    }
-
     [HttpGet("/profile")]
     public IActionResult Profile()
     {
