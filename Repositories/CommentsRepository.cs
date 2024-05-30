@@ -14,7 +14,6 @@ public class CommentsRepository(IPathHelper pathHelper, IProductsRepository prod
     private readonly CreateAction<Comment> _createAction = new();
     private readonly DeleteAction<Comment> _deleteAction = new();
     private readonly GetAllByAction<Comment> _getAllByAction = new();
-    private readonly UpdateAction<Comment> _updateAction = new();
 
     public List<Comment> GetAll()
     {
@@ -33,18 +32,6 @@ public class CommentsRepository(IPathHelper pathHelper, IProductsRepository prod
         _createAction.DoAction(_collectionPath, comment);
 
         productsRepository.AddComment(dto.ProductId, comment);
-    }
-
-    public void UpdateOne(int id, UpdateCommentDto dto)
-    {
-        _updateAction.DoAction(
-            _collectionPath,
-            comment => comment.Id == id,
-            comment =>
-            {
-                comment.Content = dto.Content;
-                comment.Grade = dto.Grade;
-            });
     }
 
     public void DeleteOne(int id)

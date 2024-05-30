@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using trade_compas.Validation;
 
 namespace trade_compas.DTOs.Product;
 
