@@ -1,9 +1,11 @@
 using System.ComponentModel.DataAnnotations;
+using Supabase.Gotrue;
 
 namespace trade_compas.Utilities.DTOs.Comment;
 
 public class CreateCommentDto
 {
+    public User Author { get; set; }
     public string AuthorId { get; set; }
     public int ProductId { get; set; }
 
@@ -13,5 +15,5 @@ public class CreateCommentDto
 
     [Required(ErrorMessage = "Grade is required")]
     [Range(1, 5)]
-    public int Grade { get; set; }
+    public int Stars { get; set; }
 }

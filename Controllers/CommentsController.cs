@@ -10,7 +10,7 @@ public class CommentsController(ICommentsRepository commentsRepository, Supabase
     private readonly User? _user = supabaseClient.Auth.CurrentUser;
 
     [HttpPost]
-    public IActionResult Create(int productId, string content, int grade)
+    public IActionResult Create(int productId, string content, int stars)
     {
         if (!string.IsNullOrEmpty(content.Trim()))
         {
@@ -18,8 +18,9 @@ public class CommentsController(ICommentsRepository commentsRepository, Supabase
             {
                 ProductId = productId,
                 Content = content,
-                Grade = grade,
+                Stars = stars,
                 AuthorId = _user?.Id!,
+                Author = _user!,
             };
 
             commentsRepository.CreateOne(dto);
@@ -35,8 +36,6 @@ public class CommentsController(ICommentsRepository commentsRepository, Supabase
     {
         commentsRepository.DeleteOne(id);
 
-        var comments = commentsRepository.GetAllBy(comment => comment.ProductId == productId);
-
-        return PartialView("CommentsPartial", comments);
+        return RedirectToAction("Details", "Products", new { id = productId });
     }
 }

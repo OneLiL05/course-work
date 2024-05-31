@@ -72,6 +72,8 @@ body {
   width: 100%;
 }
 
+.comment-body__header {}
+
 .comment-body > p,
 .comment-body__header > p {
   margin: 0;

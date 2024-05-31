@@ -10,4 +10,6 @@ public interface IProductsRepository : IBaseRepository<Product>, ICreatable<Crea
     void Unarchive(int id);
 
     void AddComment(int id, Comment comment);
+
+    void RemoveComment(int id, Comment comment);
 }

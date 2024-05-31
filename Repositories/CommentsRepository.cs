@@ -12,8 +12,8 @@ public class CommentsRepository(IPathHelper pathHelper, IProductsRepository prod
     private readonly GetAllAction<Comment> _getAllAction = new();
     private readonly GetOneAction<Comment> _getOneAction = new();
     private readonly CreateAction<Comment> _createAction = new();
-    private readonly DeleteAction<Comment> _deleteAction = new();
     private readonly GetAllByAction<Comment> _getAllByAction = new();
+    private readonly DeleteAction<Comment> _deleteAction = new();
 
     public List<Comment> GetAll()
     {
@@ -36,6 +36,12 @@ public class CommentsRepository(IPathHelper pathHelper, IProductsRepository prod
 
     public void DeleteOne(int id)
     {
+        var comment = GetOne(comment => comment.Id == id);
+
+        Console.WriteLine(id);
+
+        productsRepository.RemoveComment(comment.ProductId, comment);
+
         _deleteAction.DoAction(_collectionPath, id);
     }
 
@@ -43,5 +49,4 @@ public class CommentsRepository(IPathHelper pathHelper, IProductsRepository prod
     {
         return _getAllByAction.DoAction(GetAll(), match);
     }
-
 }

@@ -103,4 +103,17 @@ public class ProductsRepository(IPathHelper pathHelper) : IProductsRepository
                 product.Comments.Add(comment);
             });
     }
+
+    public void RemoveComment(int id, Comment comment)
+    {
+        Console.WriteLine(comment.Id);
+
+        _updateAction.DoAction(
+            _collectionPath,
+            product => product.Id == id,
+            product =>
+            {
+                product.Comments = product.Comments.Where(c => c.Id != comment.Id).ToList();
+            });
+    }
 }

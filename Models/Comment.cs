@@ -15,7 +15,8 @@ public class Comment : CreateCommentDto, IIdentifiable, ITimestampable
         Content = dto.Content;
         AuthorId = dto.AuthorId;
         ProductId = dto.ProductId;
-        Grade = dto.Grade;
+        Stars = dto.Stars;
+        Author = dto.Author;
     }
 
     private static int lastId = 0;

@@ -29,7 +29,7 @@ public class AuthController(Client supabaseClient, IAuthRepository authRepositor
             {
                 await supabaseClient.Auth.SignIn(dto.Email, dto.Password);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Products");
             }
             catch (GotrueException ex)
             {
