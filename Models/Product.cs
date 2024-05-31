@@ -3,13 +3,13 @@ using trade_compas.Interfaces.Basic;
 
 namespace trade_compas.Models;
 
-public class Product : CreateProductDto, IIdentifiable, ITimestampable
+public class Product : CreateProductDto, IIdentifiable, ITimestampable, IReviewable
 {
     public Product() {}
 
     public Product(CreateProductDto dto)
     {
-        Id = ++lastId;
+        Id = ++_lastId;
         CreatedAt = DateTime.Now;
         UpdatedAt = DateTime.Now;
         Name = dto.Name;
@@ -33,11 +33,13 @@ public class Product : CreateProductDto, IIdentifiable, ITimestampable
         SellerId = product.SellerId;
     }
 
-    private static int lastId = 0;
+    private static int _lastId;
     public int Id { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 
-    public List<Comment> Comments { get; set; } = [];
-    public bool InArchive { get; set; } = false;
+    public List<Review> Reviews { get; set; } = [];
+
+    public int Ranking { get; set; }
+    public bool InArchive { get; set; }
 }

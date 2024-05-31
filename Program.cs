@@ -24,7 +24,7 @@ builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
 builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
-builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
+builder.Services.AddScoped<IReviewsRepository, ReviewsRepository>();
 
 builder.Services.AddControllersWithViews();
 

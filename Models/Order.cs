@@ -10,7 +10,7 @@ public class Order : CreateOrderDto, IIdentifiable, ITimestampable
 
     public Order(CreateOrderDto dto)
     {
-        Id = ++LastId;
+        Id = ++_lastId;
         CreatedAt = DateTime.Now;
         UpdatedAt = DateTime.Now;
         Status = OrderStatus.New;
@@ -18,7 +18,7 @@ public class Order : CreateOrderDto, IIdentifiable, ITimestampable
         Product = dto.Product;
     }
 
-    private static int LastId = 0;
+    private static int _lastId = 0;
     public int Id { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }

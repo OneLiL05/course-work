@@ -4,6 +4,6 @@ using trade_compas.Utilities.DTOs.Comment;
 
 namespace trade_compas.Interfaces.Repositories;
 
-public interface ICommentsRepository : IBaseRepository<Comment>, ICreatable<CreateCommentDto>, IDeletable, IGetableBy<Comment>
+public interface IReviewsRepository : IBaseRepository<Review>, ICreatable<CreateCommentDto>, IDeletable, IGetableBy<Review>
 {
 }

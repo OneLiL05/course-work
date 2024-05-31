@@ -3,11 +3,11 @@ using trade_compas.Utilities.DTOs.Comment;
 
 namespace trade_compas.Models;
 
-public class Comment : CreateCommentDto, IIdentifiable, ITimestampable
+public class Review : CreateCommentDto, IIdentifiable, ITimestampable
 {
-    public Comment() {}
+    public Review() {}
 
-    public Comment(CreateCommentDto dto)
+    public Review(CreateCommentDto dto)
     {
         Id = ++lastId;
         CreatedAt = DateTime.Now;

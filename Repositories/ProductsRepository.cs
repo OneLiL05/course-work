@@ -18,6 +18,7 @@ public class ProductsRepository(IPathHelper pathHelper) : IProductsRepository
     private readonly GetAllByAction<Product> _getAllByAction = new();
     private readonly UpdateAction<Product> _updateAction = new();
     private readonly CreateAction<Product> _createAction = new();
+    private readonly ReviewAction<Product> _reviewAction = new();
 
     public List<Product> GetAll()
     {
@@ -93,27 +94,13 @@ public class ProductsRepository(IPathHelper pathHelper) : IProductsRepository
         return _sortAction.DoAction(list, keySelector, order);
     }
 
-    public void AddComment(int id, Comment comment)
+    public void AddReview(int id, Review review)
     {
-        _updateAction.DoAction(
-            _collectionPath,
-            product => product.Id == id,
-            product =>
-            {
-                product.Comments.Add(comment);
-            });
+        _reviewAction.DoAction(_collectionPath, id, review, ReviewActionType.Add);
     }
 
-    public void RemoveComment(int id, Comment comment)
+    public void RemoveReview(int id, Review review)
     {
-        Console.WriteLine(comment.Id);
-
-        _updateAction.DoAction(
-            _collectionPath,
-            product => product.Id == id,
-            product =>
-            {
-                product.Comments = product.Comments.Where(c => c.Id != comment.Id).ToList();
-            });
+        _reviewAction.DoAction(_collectionPath, id, review, ReviewActionType.Remove);
     }
 }
