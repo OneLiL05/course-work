@@ -71,8 +71,19 @@ public class AuthController(Client supabaseClient, IAuthRepository authRepositor
     }
 
     [HttpPost]
-    public async Task LogOut()
+    public async Task<IActionResult> LogOut()
     {
-        await supabaseClient.Auth.SignOut();
+        try
+        {
+            await supabaseClient.Auth.SignOut();
+
+            Console.WriteLine(_user.Id);
+
+            return RedirectToAction("Index", "Products");
+        }
+        catch (GotrueException ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 }

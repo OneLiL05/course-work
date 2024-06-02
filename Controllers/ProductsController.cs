@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Supabase.Gotrue;
 using trade_compas.DTOs.Product;
@@ -57,6 +56,7 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
             {
                 "price" => productsRepository.SortBy(products, product => product.Price, order),
                 "date" => productsRepository.SortBy(products, product => product.CreatedAt, order),
+                "rank" => productsRepository.SortBy(products, product => product.Ranking, order),
                 _ => products
             };
         }
@@ -88,7 +88,6 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
         {
             try
             {
-
                 dto.SellerId = _user?.Id!;
                 productsRepository.CreateOne(dto);
 

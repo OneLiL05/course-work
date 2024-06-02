@@ -1,10 +1,8 @@
-using trade_compas.Enums;
 using trade_compas.Interfaces.Helpers;
 using trade_compas.Interfaces.Repositories;
 using trade_compas.Models;
 using trade_compas.Utilities.Actions;
 using trade_compas.Utilities.DTOs.Order;
-using trade_compas.Utils;
 
 namespace trade_compas.Repositories;
 
@@ -40,12 +38,12 @@ public class OrdersRepository(IPathHelper pathHelper) : IOrdersRepository
         _createAction.DoAction(_collectionPath, order);
     }
 
-    public void UpdateOne(int id, OrderStatus dto)
+    public void UpdateOne(int id, UpdateOrderDto dto)
     {
         _updateAction.DoAction(
             _collectionPath,
             order => order.Id == id,
-            order => order.Status = dto);
+            order => order.Status = dto.Status);
     }
 
     public void DeleteOne(int id)

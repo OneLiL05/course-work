@@ -5,7 +5,7 @@ using trade_compas.Utilities.DTOs.Comment;
 
 namespace trade_compas.Controllers;
 
-public class CommentsController(IReviewsRepository reviewsRepository, Supabase.Client supabaseClient) : Controller
+public class ReviewsController(IReviewsRepository reviewsRepository, Supabase.Client supabaseClient) : Controller
 {
     private readonly User? _user = supabaseClient.Auth.CurrentUser;
 

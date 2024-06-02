@@ -1,4 +1,5 @@
 @using trade_compas.Enums
+@using trade_compas.Helpers
 @using trade_compas.Utilities.Actions
 @model Product
 
@@ -9,6 +10,8 @@
     var orderAction = new SortAction<Review>();
 
     List<Review> ToSorted(List<Review> comments) => orderAction.DoAction(comments, comment => comment.CreatedAt, SortingOrder.Desc);
+
+    var rank = RankingHelper.Calculate(Model);
 }
 
 <header class="d-inline-flex w-100 mb-4 align-items-center justify-content-between">
@@ -30,6 +33,12 @@
         </nav>
     </div>
 </header>
+@if (rank is > 0 and < 3)
+{
+    <div class="alert alert-warning" role="alert">
+        This product rank is low, make sure before buying it
+    </div>
+}
 <section class="row gap-3">
     <div class="col-8">
         <div class="card">
@@ -48,7 +57,16 @@
     <div class="col-3">
         <div class="card">
             <div class="card-body">
-                <h2>@Model.Name</h2>
+                <div class="d-flex flex-row gap-2">
+                    <p class="m-0">Ranking:</p>
+                    <div>
+                        @for (var i = 1; i <= 5; i++)
+                        {
+                            <span class="fa fa-star @((i <= rank) ? "text-warning" : "text-body-tertiary")"></span>
+                        }
+                    </div>
+                </div>
+                <h2 class="mt-2">@Model.Name</h2>
                 <h4>$@Model.Price</h4>
                 <div class="col mt-4 d-flex flex-column gap-2">
                     @if (ViewBag.User != null && ViewBag.User.Id != Model.SellerId)
@@ -56,9 +74,10 @@
                         <a class="btn btn-primary w-100" asp-action="Order" asp-route-id="@Model.Id">
                             Order with delivery
                         </a>
-                    } else if (ViewBag.User != null && ViewBag.User.Id == Model.SellerId)
+                    }
+                    else if (ViewBag.User != null && ViewBag.User.Id == Model.SellerId)
                     {
-                        <a class="btn btn-primary w-100" asp-action="Order" asp-route-id="@Model.Id">
+                        <a href="/products/@Model.Id/edit" class="btn btn-primary w-100">
                             Edit
                         </a>
                         <form asp-action="Archive" asp-route-id="@Model.Id" method="post">
@@ -80,7 +99,7 @@
 <section class="d-flex flex-column gap-3 w-100 mt-3">
     @if (ViewBag.User != null)
     {
-        <form id="comment-form" asp-controller="Comments" asp-action="Create" method="post">
+        <form id="comment-form" asp-controller="Reviews" asp-action="Create" method="post">
             @Html.Hidden("productId", Model.Id)
             <textarea name="content" class="form-control" placeholder="Add a comment..." maxlength="256"></textarea>
             <div class="d-flex justify-content-between align-items-center w-100 mt-3">
@@ -100,6 +119,6 @@
     }
     <div id="comments-list">
         <h3>Reviews:</h3>
-        <partial name="CommentsPartial" model="ToSorted(Model.Reviews)"/>
+        <partial name="ReviewsPartial" model="ToSorted(Model.Reviews)"/>
     </div>
 </section>

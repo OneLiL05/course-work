@@ -5,15 +5,15 @@
 {
     <div class="card text-center">
         <div class="card-body p-5">
-            <h5 class="card-title">No comment was found</h5>
-            <p class="card-text">There is no comment found for this product.</p>
+            <h5 class="card-title">No review was found</h5>
+            <p class="card-text">There is no review found for this product.</p>
         </div>
     </div>
 }
 else
 {
     <ul class="d-flex flex-column gap-2 p-0">
-        @foreach (var comment in Model)
+        @foreach (var review in Model)
         {
             <li class="comment">
                 <div class="comment_avatar">
@@ -22,27 +22,27 @@ else
                 <div class="comment-body">
                     <div class="comment-body__header">
                         <div class="d-flex flex-row align-items-center gap-3">
-                            <strong class="m-0">@comment.Author.Email</strong>
+                            <strong class="m-0">@review.Author.Email</strong>
                             <div>
                                 @for (var i = 1; i <= 5; i++)
                                 {
-                                    <span class="fa fa-star @((i <= comment.Stars) ? "text-warning" : "text-body-tertiary")"></span>
+                                    <span class="fa fa-star @((i <= review.Stars) ? "text-warning" : "text-body-tertiary")"></span>
                                 }
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center gap-3">
-                            @if (ViewBag.User != null && ViewBag.User.Id == comment.AuthorId)
+                            @if (ViewBag.User != null && ViewBag.User.Id == review.AuthorId)
                             {
-                                <form asp-controller="Comments" asp-action="Delete" method="post" asp-route-id="@comment.Id" asp-route-productId="@comment.ProductId">
+                                <form asp-controller="Reviews" asp-action="Delete" method="post" asp-route-id="@review.Id" asp-route-productId="@review.ProductId">
                                     <button class="btn btn-outline-danger btn-sm">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </form>
                             }
-                            <p class="m-0">@TimeHelper.GetRelativeTime(comment.CreatedAt)</p>
+                            <p class="m-0">@TimeHelper.GetRelativeTime(review.CreatedAt)</p>
                         </div>
                     </div>
-                    <p>@comment.Id</p>
+                    <p>@review.Content</p>
                 </div>
             </li>
         }

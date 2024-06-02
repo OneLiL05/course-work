@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using trade_compas.Enums;
 using trade_compas.Interfaces.Repositories;
 using trade_compas.Models;
@@ -17,6 +18,11 @@ public class HomeController(Supabase.Client supabaseClient, IProductsRepository 
     {
         ViewData["User"] = _user;
 
+        if (_user == null)
+        {
+            return RedirectToAction("Index", "Products");
+        }
+
         return View(_user);
     }
 
@@ -25,7 +31,7 @@ public class HomeController(Supabase.Client supabaseClient, IProductsRepository 
     {
         if (_user == null)
         {
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Products");
         }
 
         ViewData["User"] = _user;
@@ -57,7 +63,7 @@ public class HomeController(Supabase.Client supabaseClient, IProductsRepository 
     {
         if (_user == null)
         {
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Products");
         }
 
         ViewData["User"] = _user;
@@ -82,10 +88,16 @@ public class HomeController(Supabase.Client supabaseClient, IProductsRepository 
     {
         if (_user == null)
         {
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Products");
         }
 
         ViewData["User"] = _user;
+
+        ViewBag.Status = Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().Select(e => new SelectListItem()
+        {
+            Value = e.ToString(),
+            Text = e.ToString(),
+        }).ToList();
 
         var orders = ordersRepository.GetAllBy(order => order.Product.SellerId == _user.Id);
 
