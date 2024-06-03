@@ -21,11 +21,11 @@ await supabase.InitializeAsync();
 
 builder.Services.AddScoped<Client>(_ => supabase);
 builder.Services.AddScoped<IPathHelper, PathHelper>();
+builder.Services.AddScoped<IReviewsRepository, ReviewsRepository>();
 builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
 builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
-builder.Services.AddScoped<IReviewsRepository, ReviewsRepository>();
 builder.Services.AddScoped<IImageHelper, ImageHelper>();
 
 builder.Services.AddControllersWithViews();

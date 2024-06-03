@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Supabase.Gotrue;
 using trade_compas.Interfaces.Repositories;
+using trade_compas.Models;
 using trade_compas.Utilities.DTOs.Comment;
 
 namespace trade_compas.Controllers;
@@ -35,5 +36,45 @@ public class ReviewsController(IReviewsRepository reviewsRepository, Supabase.Cl
         reviewsRepository.DeleteOne(id);
 
         return RedirectToAction("Details", "Products", new { id = productId });
+    }
+
+    [HttpGet("/reviews/{id:int}/edit")]
+    public IActionResult Edit(int id, int productId)
+    {
+        ViewData["User"] = _user;
+
+        var review = reviewsRepository.GetOne(review => review.Id == id);
+
+        if (review == null)
+        {
+            return RedirectToAction("Details", "Products", new { id = productId });
+        }
+
+        return View(review);
+    }
+
+    [HttpPost("/reviews/{id:int}/edit")]
+    public IActionResult Edit(UpdateCommentDto dto, int id)
+    {
+        ViewData["User"] = _user;
+
+        var review = reviewsRepository.GetOne(review => review.Id == id);
+
+        var messages = string.Join("; ", ModelState.Values
+            .SelectMany(x => x.Errors)
+            .Select(x => x.ErrorMessage));
+
+        Console.WriteLine(messages);
+
+        if (ModelState.IsValid)
+        {
+            Console.WriteLine(dto.Content);
+
+            reviewsRepository.UpdateOne(id, dto);
+
+            return RedirectToAction("Details", "Products", new { id = review?.ProductId });
+        }
+
+        return View(review);
     }
 }

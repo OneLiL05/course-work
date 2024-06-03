@@ -4,7 +4,7 @@ using trade_compas.Models;
 
 namespace trade_compas.Utilities.Actions;
 
-public class ReviewAction<TEntity> where TEntity : IIdentifiable, IReviewable
+public class ReviewAction<TEntity> where TEntity : IIdentifiable, IReviewable, ITimestampable
 {
     private readonly UpdateAction<TEntity> _updateAction = new();
 
@@ -15,15 +15,24 @@ public class ReviewAction<TEntity> where TEntity : IIdentifiable, IReviewable
             entity => entity.Id == id,
             entity =>
             {
-                if (actionType == ReviewActionType.Add)
+                switch (actionType)
                 {
-                    entity.Reviews.Add(review);
-                    entity.Ranking += review.Stars;
-                }
-                else
-                {
-                    entity.Reviews = entity.Reviews.Where(c => c.Id != review.Id).ToList();
-                    entity.Ranking -= review.Stars;
+                    case ReviewActionType.Add:
+                        entity.Reviews.Add(review);
+                        entity.Ranking += review.Stars;
+                        break;
+                    case ReviewActionType.Remove:
+                        entity.Reviews = entity.Reviews.Where(c => c.Id != review.Id).ToList();
+                        entity.Ranking -= review.Stars;
+                        break;
+                    case ReviewActionType.Update:
+                        entity.Reviews.Where(r => r.Id == review.Id).ToList().ForEach(r =>
+                        {
+                            r.Content = review.Content;
+                            r.Stars = review.Stars;
+                            r.IsEdited = review.IsEdited;
+                        });
+                        break;
                 }
             });
     }

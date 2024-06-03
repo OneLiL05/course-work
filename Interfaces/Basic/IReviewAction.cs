@@ -7,4 +7,6 @@ public interface IReviewAction
     void AddReview(int id, Review review);
 
     void RemoveReview(int id, Review review);
+
+    void UpdateReview(int id, Review review);
 }

@@ -103,4 +103,9 @@ public class ProductsRepository(IPathHelper pathHelper) : IProductsRepository
     {
         _reviewAction.DoAction(_collectionPath, id, review, ReviewActionType.Remove);
     }
+
+    public void UpdateReview(int id, Review review)
+    {
+        _reviewAction.DoAction(_collectionPath, id, review, ReviewActionType.Update);
+    }
 }

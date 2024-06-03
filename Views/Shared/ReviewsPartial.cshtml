@@ -33,11 +33,18 @@ else
                         <div class="d-flex flex-row align-items-center gap-3">
                             @if (ViewBag.User != null && ViewBag.User.Id == review.AuthorId)
                             {
+                                <a asp-action="Edit" asp-controller="Reviews" asp-route-id="@review.Id" asp-route-productId="@review.ProductId" class="btn btn-outline-primary btn-sm">
+                                    <i class="fa-solid fa-pencil"></i>
+                                </a>
                                 <form asp-controller="Reviews" asp-action="Delete" method="post" asp-route-id="@review.Id" asp-route-productId="@review.ProductId">
                                     <button class="btn btn-outline-danger btn-sm">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </form>
+                            }
+                            @if (review.IsEdited)
+                            {
+                                <i class="m-0">(edited)</i>
                             }
                             <p class="m-0">@TimeHelper.GetRelativeTime(review.CreatedAt)</p>
                         </div>

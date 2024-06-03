@@ -14,6 +14,7 @@ public class ReviewsRepository(IPathHelper pathHelper, IProductsRepository produ
     private readonly CreateAction<Review> _createAction = new();
     private readonly GetAllByAction<Review> _getAllByAction = new();
     private readonly DeleteAction<Review> _deleteAction = new();
+    private readonly UpdateAction<Review> _updateAction = new();
 
     public List<Review> GetAll()
     {
@@ -36,11 +37,9 @@ public class ReviewsRepository(IPathHelper pathHelper, IProductsRepository produ
 
     public void DeleteOne(int id)
     {
-        var comment = GetOne(comment => comment.Id == id);
+        var review = GetOne(comment => comment.Id == id);
 
-        Console.WriteLine(id);
-
-        productsRepository.RemoveReview(comment.ProductId, comment);
+        productsRepository.RemoveReview(review.ProductId, review);
 
         _deleteAction.DoAction(_collectionPath, id);
     }
@@ -48,5 +47,19 @@ public class ReviewsRepository(IPathHelper pathHelper, IProductsRepository produ
     public List<Review> GetAllBy(Predicate<Review> match)
     {
         return _getAllByAction.DoAction(GetAll(), match);
+    }
+
+    public void UpdateOne(int id, UpdateCommentDto dto)
+    {
+        _updateAction.DoAction(_collectionPath, review => review.Id == id, review =>
+        {
+            review.Content = dto.Content;
+            review.Stars = dto.Stars;
+            review.IsEdited = true;
+        });
+
+        var review = GetOne(r => r.Id == id);
+
+        productsRepository.UpdateReview(review.ProductId, review);
     }
 }
