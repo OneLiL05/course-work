@@ -62,7 +62,7 @@
                 @foreach (var product in Model)
                 {
                     <div class="card" style="width: 16rem;">
-                        <img src="~/uploads/product-placeholder.webp" class="card-img-top" alt="Product image">
+                        <img src="@product.Img" width="250" height="250" class="card-img-top" alt="Product image">
                         <div class="card-body">
                             <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="h5 card-title">@StringHelper.Trim(product.Name, 20)</a>
                             <p class="card-text">$@product.Price</p>

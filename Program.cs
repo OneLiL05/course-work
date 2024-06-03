@@ -1,4 +1,5 @@
 using Supabase;
+using trade_compas.Helpers;
 using trade_compas.Interfaces;
 using trade_compas.Interfaces.Repositories;
 using trade_compas.Interfaces.Helpers;
@@ -25,6 +26,7 @@ builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
 builder.Services.AddScoped<IReviewsRepository, ReviewsRepository>();
+builder.Services.AddScoped<IImageHelper, ImageHelper>();
 
 builder.Services.AddControllersWithViews();
 

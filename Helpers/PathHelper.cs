@@ -11,6 +11,8 @@ public class PathHelper(IWebHostEnvironment webHost) : IPathHelper
 
     public string GetImagePath(string fileName)
     {
-        return Path.Combine(webHost.WebRootPath, $"uploads/{fileName}.webp");
+        var uploadsPath = Path.Combine(webHost.WebRootPath, "uploads");
+
+        return Path.Combine(uploadsPath, fileName);
     }
 }

@@ -18,6 +18,7 @@ public class Product : CreateProductDto, IIdentifiable, ITimestampable, IReviewa
         State = dto.State;
         CategorySlug = dto.CategorySlug;
         SellerId = dto.SellerId;
+        Img = dto.Img;
     }
 
     public Product(Product product)
@@ -31,6 +32,7 @@ public class Product : CreateProductDto, IIdentifiable, ITimestampable, IReviewa
         State = product.State;
         CategorySlug = product.CategorySlug;
         SellerId = product.SellerId;
+        Img = product.Img;
     }
 
     private static int _lastId;

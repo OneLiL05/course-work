@@ -5,13 +5,14 @@ using trade_compas.DTOs.Product;
 using trade_compas.Interfaces;
 using trade_compas.Interfaces.Repositories;
 using trade_compas.Enums;
+using trade_compas.Interfaces.Helpers;
 using trade_compas.Models;
 using trade_compas.Utilities.DTOs.Order;
 
 namespace trade_compas.Controllers;
 
 [Route("products")]
-public class ProductsController(Supabase.Client supabaseClient, IProductsRepository productsRepository, ICategoriesRepository categoriesRepository, IOrdersRepository ordersRepository) : Controller
+public class ProductsController(Supabase.Client supabaseClient, IProductsRepository productsRepository, ICategoriesRepository categoriesRepository, IOrdersRepository ordersRepository, IImageHelper imageHelper) : Controller
 {
     private readonly User? _user = supabaseClient.Auth.CurrentUser;
     private readonly SelectList _categoriesList = new(categoriesRepository.GetAll(), "Slug", "Name");
@@ -80,16 +81,36 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
     }
 
     [HttpPost("new")]
-    public IActionResult New(CreateProductDto dto)
+    public async Task<IActionResult> New(CreateProductDto dto, IFormFile? file)
     {
         ViewData["User"] = _user;
+
+        string? img;
 
         if (ModelState.IsValid)
         {
             try
             {
-                dto.SellerId = _user?.Id!;
-                productsRepository.CreateOne(dto);
+                Console.WriteLine(file?.FileName);
+
+                if (file != null)
+                {
+                    var imagePath = await imageHelper.Create(file);
+
+                    img = imagePath;
+                }
+                else
+                {
+                    img = "/uploads/product-placeholder.webp";
+                }
+
+                var d = new CreateProductDto(dto)
+                {
+                    Img = img,
+                    SellerId = _user?.Id!,
+                };
+
+                productsRepository.CreateOne(d);
 
                 return RedirectToAction("Index");
             }
