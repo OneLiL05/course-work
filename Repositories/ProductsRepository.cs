@@ -19,6 +19,7 @@ public class ProductsRepository(IPathHelper pathHelper) : IProductsRepository
     private readonly UpdateAction<Product> _updateAction = new();
     private readonly CreateAction<Product> _createAction = new();
     private readonly ReviewAction<Product> _reviewAction = new();
+    private readonly ArchiveAction<Product> _archiveAction = new();
 
     public List<Product> GetAll()
     {
@@ -44,18 +45,12 @@ public class ProductsRepository(IPathHelper pathHelper) : IProductsRepository
 
     public void Archive(int id)
     {
-        _updateAction.DoAction(
-            _collectionPath,
-            product => product.Id == id,
-            product => product.InArchive = true);
+        _archiveAction.DoAction(_collectionPath, id, ArchiveActionType.Add);
     }
 
-    public void Unarchive(int id)
+    public void UnArchive(int id)
     {
-        _updateAction.DoAction(
-            _collectionPath,
-            product => product.Id == id,
-            product => product.InArchive = false);
+        _archiveAction.DoAction(_collectionPath, id, ArchiveActionType.Remove);
     }
 
     public void DeleteOne(int id)

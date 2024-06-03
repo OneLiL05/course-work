@@ -37,7 +37,7 @@ public class HomeController(Supabase.Client supabaseClient, IProductsRepository 
         ViewData["User"] = _user;
 
         var archivedProducts = productsRepository.SortBy(
-            productsRepository.GetAllBy(product => product.SellerId == _user.Id && product.InArchive),
+            productsRepository.GetAllBy(product => product.SellerId == _user.Id && product.IsArchived),
             product => product.CreatedAt,
             SortingOrder.Desc);
 
@@ -53,7 +53,7 @@ public class HomeController(Supabase.Client supabaseClient, IProductsRepository 
 
         ViewData["User"] = _user;
 
-        var products = productsRepository.GetAllBy(product => product.SellerId == _user.Id && !product.InArchive);
+        var products = productsRepository.GetAllBy(product => product.SellerId == _user.Id && !product.IsArchived);
 
         return View(products);
     }

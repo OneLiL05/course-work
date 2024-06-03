@@ -4,8 +4,6 @@ using trade_compas.Models;
 
 namespace trade_compas.Interfaces.Repositories;
 
-public interface IProductsRepository : IBaseRepository<Product>, ICreatable<CreateProductDto>, IUpdatable<CreateProductDto>, IDeletable, ISearchable<Product>, ISortable<Product>, IGetableBy<Product>, IReviewAction
+public interface IProductsRepository : IBaseRepository<Product>, ICreatable<CreateProductDto>, IUpdatable<CreateProductDto>, IDeletable, ISearchable<Product>, ISortable<Product>, IGetableBy<Product>, IReviewAction, IArchiveAction
 {
-    void Archive(int id);
-    void Unarchive(int id);
 }

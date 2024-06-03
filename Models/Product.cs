@@ -3,7 +3,7 @@ using trade_compas.Interfaces.Basic;
 
 namespace trade_compas.Models;
 
-public class Product : CreateProductDto, IIdentifiable, ITimestampable, IReviewable
+public class Product : CreateProductDto, IIdentifiable, ITimestampable, IReviewable, IArchivable
 {
     public Product() {}
 
@@ -39,9 +39,7 @@ public class Product : CreateProductDto, IIdentifiable, ITimestampable, IReviewa
     public int Id { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
-
     public List<Review> Reviews { get; set; } = [];
-
     public int Ranking { get; set; }
-    public bool InArchive { get; set; }
+    public bool IsArchived { get; set; }
 }

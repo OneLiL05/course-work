@@ -21,7 +21,7 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
     public IActionResult Index(string searchQuery, string orderBy, SortingOrder order, string categorySlug)
     {
         var products = productsRepository.SortBy(
-            productsRepository.GetAllBy(product => !product.InArchive),
+            productsRepository.GetAllBy(product => !product.IsArchived),
             product => product.CreatedAt,
             SortingOrder.Desc);
 
@@ -145,7 +145,7 @@ public class ProductsController(Supabase.Client supabaseClient, IProductsReposit
     [HttpPost("{id:int}/unarchive")]
     public IActionResult Unarchive(int id)
     {
-        productsRepository.Unarchive(id);
+        productsRepository.UnArchive(id);
 
         return RedirectToAction("MyArchive", "Home");
     }
