@@ -32,6 +32,8 @@ public class ReviewAction<TEntity> where TEntity : IIdentifiable, IReviewable, I
                             r.Stars = review.Stars;
                             r.IsEdited = review.IsEdited;
                         });
+
+                        entity.Ranking -= (5 - review.Stars);
                         break;
                 }
             });
